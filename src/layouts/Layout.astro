@@ -1,0 +1,39 @@
+---
+import '../styles/global.css';
+interface Props {
+  title: string;
+}
+const { title } = Astro.props;
+---
+<!doctype html>
+<html lang="es" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content="Guía de optimización de Windows para Gaming" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+  </head>
+  <body class="m-0 bg-brandBg text-gray-200">
+    <!-- Fondo Animado Canvas -->
+    <canvas id="grid-bg" class="fixed inset-0 w-full h-full -z-20 bg-brandBg"></canvas>
+    <div class="scan-line"></div>
+
+    <header class="sticky top-0 z-50 border-b border-[#1f2327] backdrop-blur-md bg-[#08090b]/70">
+      <div class="max-w-[1080px] mx-auto px-6 py-4 flex items-center justify-between">
+        <div class="font-mono font-semibold tracking-wide flex items-baseline gap-2">
+          <span class="text-brandAccent">&gt;_</span>
+          <span class="text-[15px]">OPTIMIZA<span class="text-brandAccent">WIN</span></span>
+        </div>
+        <nav class="hidden md:flex items-center gap-7 text-sm text-[#8b929c]">
+          <a href="#video" class="hover:text-white transition-colors">Video</a>
+          <a href="#pasos" class="hover:text-white transition-colors">Guía</a>
+          <a href="#consejos" class="hover:text-white transition-colors">Resultados</a>
+        </nav>
+      </div>
+    </header>
+
+    <slot />
+  </body>
+</html>

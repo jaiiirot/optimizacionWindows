@@ -1,0 +1,245 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+<Layout title="Optimización Windows 10 y 11 — Guía">
+  <main>
+    <!-- HERO (Usando Tailwind) -->
+    <section class="max-w-[1080px] mx-auto px-6 pt-24 pb-16 text-center" id="top">
+      <div class="inline-flex items-center gap-2 font-mono text-xs tracking-wider text-[#8b929c] border border-[#1f2327] px-4 py-1.5 rounded-full mb-7 eyebrow">
+        <span class="dot"></span> Guías basadas en video · Texto plano
+      </div>
+      <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight tracking-tight mb-6 max-w-3xl mx-auto">
+        La optimización definitiva<br>para tu PC de bajos recursos.
+      </h1>
+      <p class="text-[17px] text-[#8b929c] max-w-xl mx-auto mb-9">
+        Procesos, servicios, energía y red explicados paso a paso para que entiendas qué estás tocando. Elegí tu sistema operativo.
+      </p>
+    </section>
+
+    <!-- TABS SELECTOR (Usando CSS híbrido) -->
+    <div class="os-tabs">
+      <button class="os-tab active" data-target="win10">
+        <span class="text-2xl block mb-1">🪟</span> Windows 10
+      </button>
+      <button class="os-tab" data-target="win11">
+        <span class="text-2xl block mb-1">✨</span> Windows 11
+      </button>
+    </div>
+
+    <!-- ======================= -->
+    <!-- CONTENIDO WINDOWS 10 -->
+    <!-- ======================= -->
+    <div id="win10" class="os-content active">
+      <!-- ADVERTENCIA Tailwind -->
+      <section class="border-y border-[#191c1f] bg-[rgba(255,176,46,0.12)]">
+        <div class="max-w-[1080px] mx-auto px-6 py-4 flex items-start gap-4 text-sm text-[#e8eaed]">
+          <span class="text-[#ffb02e] text-lg font-bold">⚠</span>
+          <p class="m-0 leading-relaxed">
+            <strong class="text-[#ffb02e]">Antes de tocar nada:</strong> creá un punto de restauración (Paso 1). Si tenés SSD, <strong class="text-[#ffb02e]">nunca lo desfragmentes</strong> — solo optimizalo.
+          </p>
+        </div>
+      </section>
+
+      <section class="max-w-[1080px] mx-auto px-6 py-16" id="pasos-w10">
+        <div class="mb-10">
+          <p class="font-mono text-xs text-brandAccentDim tracking-widest uppercase mb-2">// guía paso a paso</p>
+          <h2 class="text-3xl font-bold">Los 13 pasos para Windows 10</h2>
+        </div>
+        
+        <div class="flex flex-col gap-3">
+          <!-- PASO 1 -->
+          <article class="step group">
+            <button class="w-full flex items-center gap-4 p-5 cursor-pointer text-left step-head">
+              <span class="font-mono text-sm font-bold text-brandAccent bg-[rgba(0,210,255,0.18)] min-w-[34px] h-[34px] rounded-md flex items-center justify-center">01</span>
+              <span class="flex-1 font-semibold text-[15.5px]">Crear un punto de restauración</span>
+              <span class="text-xs text-[#565c64] step-chevron">▾</span>
+            </button>
+            <div class="step-body">
+              <div class="step-effect">
+                <strong class="text-brandAccent">¿Qué sucede al hacer esto?</strong> Crea una "foto" del estado actual de tu sistema para revertir cambios.
+              </div>
+              <ol class="list-decimal list-inside text-sm text-[#8b929c] space-y-2 ml-2 pb-4">
+                <li>Abrí <code class="bg-[#0e1013] border border-[#1f2327] px-1 rounded text-brandAccent">Sistema → Protección del sistema</code>.</li>
+                <li>Configurá el espacio al <strong class="text-gray-200">5% - 7%</strong>.</li>
+                <li>Hacé clic en <strong class="text-gray-200">Crear</strong>.</li>
+              </ol>
+            </div>
+          </article>
+
+          <!-- PASO 2 -->
+          <article class="step group">
+            <button class="w-full flex items-center gap-4 p-5 cursor-pointer text-left step-head">
+              <span class="font-mono text-sm font-bold text-brandAccent bg-[rgba(0,210,255,0.18)] min-w-[34px] h-[34px] rounded-md flex items-center justify-center">02</span>
+              <span class="flex-1 font-semibold text-[15.5px]">Ajustes de Configuración y Privacidad</span>
+              <span class="text-xs text-[#565c64] step-chevron">▾</span>
+            </button>
+            <div class="step-body">
+              <div class="step-effect">
+                <strong class="text-brandAccent">¿Qué sucede al hacer esto?</strong> Corta de raíz la telemetría, liberando RAM.
+              </div>
+              <ul class="list-disc list-inside text-sm text-[#8b929c] space-y-2 ml-2 pb-4">
+                <li>Desactivar <strong class="text-gray-200">Asistente de concentración</strong>.</li>
+                <li>En Privacidad, desactivar todo excepto Cuenta de Microsoft.</li>
+              </ul>
+            </div>
+          </article>
+        </div>
+      </section>
+    </div>
+
+    <!-- ======================= -->
+    <!-- CONTENIDO WINDOWS 11 -->
+    <!-- ======================= -->
+    <div id="win11" class="os-content">
+      <section class="border-y border-[#191c1f] bg-[rgba(255,176,46,0.12)] mt-8">
+        <div class="max-w-[1080px] mx-auto px-6 py-4 flex items-start gap-4 text-sm text-[#e8eaed]">
+          <span class="text-[#ffb02e] text-lg font-bold">⚠</span>
+          <p class="m-0 leading-relaxed">
+            <strong class="text-[#ffb02e]">Cuidado con los mitos en W11:</strong> NO debes tocar MSConfig. Windows ya usa todos los núcleos automáticamente.
+          </p>
+        </div>
+      </section>
+
+      <section class="max-w-[1080px] mx-auto px-6 py-16" id="pasos-w11">
+        <div class="mb-10">
+          <p class="font-mono text-xs text-brandAccentDim tracking-widest uppercase mb-2">// guía paso a paso</p>
+          <h2 class="text-3xl font-bold">Los ajustes para Windows 11</h2>
+        </div>
+        
+        <div class="flex flex-col gap-3">
+          <!-- PASO 1 W11 -->
+          <article class="step group">
+            <button class="w-full flex items-center gap-4 p-5 cursor-pointer text-left step-head">
+              <span class="font-mono text-sm font-bold text-brandAccent bg-[rgba(0,210,255,0.18)] min-w-[34px] h-[34px] rounded-md flex items-center justify-center">01</span>
+              <span class="flex-1 font-semibold text-[15.5px]">Deshabilitar Game Mode y Game Bar</span>
+              <span class="text-xs text-[#565c64] step-chevron">▾</span>
+            </button>
+            <div class="step-body">
+              <div class="step-effect">
+                <strong class="text-brandAccent">¿Qué sucede al hacer esto?</strong> Evita que Game Bar grabe en segundo plano.
+              </div>
+              <ul class="list-disc list-inside text-sm text-[#8b929c] space-y-2 ml-2 pb-4">
+                <li><code class="bg-[#0e1013] border border-[#1f2327] px-1 rounded text-brandAccent">Configuración → Juegos</code>. Apagar Modo de Juego y Game Bar.</li>
+              </ul>
+            </div>
+          </article>
+        </div>
+      </section>
+    </div>
+
+  </main>
+
+  <script is:inline>
+    // ===== Acordeón de pasos =====
+    document.querySelectorAll('.step-head').forEach((head) => {
+      head.addEventListener('click', () => {
+        const step = head.closest('.step');
+        const body = step.querySelector('.step-body');
+        const isOpen = step.classList.contains('is-open');
+
+        if (isOpen) {
+          body.style.maxHeight = null;
+          step.classList.remove('is-open');
+        } else {
+          step.classList.add('is-open');
+          body.style.maxHeight = body.scrollHeight + 'px';
+        }
+      });
+    });
+
+    // ===== Selector de Sistema Operativo (Tabs) =====
+    document.querySelectorAll('.os-tab').forEach((tab) => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.os-tab').forEach((t) => t.classList.remove('active'));
+        document.querySelectorAll('.os-content').forEach((c) => c.classList.remove('active'));
+        tab.classList.add('active');
+        const targetId = tab.getAttribute('data-target');
+        document.getElementById(targetId).classList.add('active');
+      });
+    });
+
+    // ===== Fondo Animado Canvas =====
+    (function () {
+      const canvas = document.getElementById('grid-bg');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      let w, h, cols, rows;
+      const spacing = 46;
+      let nodes = [];
+      let pulses = [];
+
+      function resize() {
+        w = canvas.width = window.innerWidth;
+        h = canvas.height = window.innerHeight;
+        cols = Math.ceil(w / spacing) + 1;
+        rows = Math.ceil(h / spacing) + 1;
+        nodes = [];
+        for (let y = 0; y < rows; y++) {
+          for (let x = 0; x < cols; x++) {
+            nodes.push({ x: x * spacing, y: y * spacing });
+          }
+        }
+      }
+
+      function spawnPulse() {
+        if (nodes.length === 0) return;
+        const horizontal = Math.random() > 0.5;
+        pulses.push({
+          progress: 0,
+          speed: 0.006 + Math.random() * 0.01,
+          horizontal,
+          lane: Math.floor(Math.random() * (horizontal ? rows : cols)),
+        });
+        if (pulses.length > 14) pulses.shift();
+      }
+
+      function draw() {
+        ctx.clearRect(0, 0, w, h);
+        
+        ctx.fillStyle = 'rgba(0, 210, 255, 0.05)';
+        for (const n of nodes) {
+          ctx.beginPath(); ctx.arc(n.x, n.y, 1, 0, Math.PI * 2); ctx.fill();
+        }
+
+        ctx.strokeStyle = 'rgba(255,255,255,0.015)';
+        ctx.lineWidth = 1;
+        for (let x = 0; x <= cols; x++) {
+          ctx.beginPath(); ctx.moveTo(x * spacing, 0); ctx.lineTo(x * spacing, h); ctx.stroke();
+        }
+        for (let y = 0; y <= rows; y++) {
+          ctx.beginPath(); ctx.moveTo(0, y * spacing); ctx.lineTo(w, y * spacing); ctx.stroke();
+        }
+
+        pulses.forEach((p) => {
+          p.progress += p.speed;
+          const alpha = Math.sin(p.progress * Math.PI);
+          let px = p.horizontal ? p.progress * w : p.lane * spacing;
+          let py = p.horizontal ? p.lane * spacing : p.progress * h;
+          
+          const grad = ctx.createRadialGradient(px, py, 0, px, py, 60);
+          grad.addColorStop(0, `rgba(0, 210, 255, ${0.5 * alpha})`);
+          grad.addColorStop(1, 'rgba(0, 210, 255, 0)');
+          ctx.fillStyle = grad;
+          ctx.beginPath(); ctx.arc(px, py, 60, 0, Math.PI * 2); ctx.fill();
+          
+          ctx.fillStyle = `rgba(180, 240, 255, ${alpha})`;
+          ctx.beginPath(); ctx.arc(px, py, 2, 0, Math.PI * 2); ctx.fill();
+        });
+        pulses = pulses.filter((p) => p.progress < 1);
+      }
+
+      let lastSpawn = 0;
+      function loop(t) {
+        if (t - lastSpawn > 900) { spawnPulse(); lastSpawn = t; }
+        draw();
+        requestAnimationFrame(loop);
+      }
+
+      window.addEventListener('resize', resize);
+      resize();
+      if (!reduceMotion) requestAnimationFrame(loop); else draw();
+    })();
+  </script>
+</Layout>

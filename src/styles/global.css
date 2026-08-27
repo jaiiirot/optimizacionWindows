@@ -1,0 +1,121 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ===== Variables y CSS Personalizado (Lo que Tailwind no cubre bien) ===== */
+:root {
+  --bg: #08090b;
+  --bg-raised: #0e1013;
+  --bg-card: #121417;
+  --border: #1f2327;
+  --border-soft: #191c1f;
+  --text: #e8eaed;
+  --text-dim: #8b929c;
+  --text-faint: #565c64;
+  --accent: #00d2ff; 
+  --accent-dim: #008eb3;
+  --accent-glow: rgba(0, 210, 255, 0.18);
+  --warn: #ffb02e;
+  --warn-glow: rgba(255, 176, 46, 0.12);
+  --mono: "JetBrains Mono", "Fira Code", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --radius: 10px;
+  --max-w: 1080px;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: var(--accent-glow);
+  color: var(--accent);
+}
+
+/* Componentes personalizados que mantenemos en CSS puro */
+.scan-line {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.012) 0px,
+    rgba(255, 255, 255, 0.012) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+}
+
+.eyebrow .dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 8px var(--accent);
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.35; }
+}
+
+.step {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-card);
+  overflow: hidden;
+  transition: border-color 0.2s ease;
+}
+.step:hover { border-color: var(--border-soft); }
+.step.is-open { border-color: var(--accent-dim); }
+
+.step-body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.35s ease;
+  padding: 0 22px;
+}
+.step.is-open .step-body {
+  padding: 4px 22px 26px;
+}
+.step-chevron {
+  transition: transform 0.25s ease;
+}
+.step.is-open .step-chevron {
+  transform: rotate(180deg);
+  color: var(--accent);
+}
+
+.os-tab.active {
+  background: var(--accent-glow);
+  border-color: var(--accent);
+  color: var(--accent);
+  box-shadow: 0 4px 20px var(--accent-glow);
+}
+.os-content { display: none; }
+.os-content.active {
+  display: block;
+  animation: fadeIn 0.4s ease forwards;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Efectos visuales */
+.step-effect {
+  font-size: 14px;
+  color: var(--text);
+  background: var(--accent-glow);
+  padding: 12px 16px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  border-left: 3px solid var(--accent);
+  line-height: 1.5;
+}
