@@ -2,10 +2,10 @@
 node_modules/
 
 # Astro
-.dist/
+# .dist/
 .astro/
 .cache/
-dist/
+# dist/
 
 # Environment
 .env
