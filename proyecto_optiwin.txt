@@ -1,0 +1,1307 @@
+================================================================================
+ARCHIVO: package.json
+================================================================================
+{
+  "name": "optimizawin-astro",
+  "type": "module",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro check && astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/check": "^0.5.10",
+    "@astrojs/tailwind": "^5.1.0",
+    "astro": "^4.5.0",
+    "tailwindcss": "^3.4.1",
+    "typescript": "^5.4.3"
+  }
+}
+
+
+
+================================================================================
+ARCHIVO: src/components/scripts/MainScripts.astro
+================================================================================
+---
+// src/components/scripts/MainScripts.astro
+---
+<script is:inline>
+  // ===== Acordeón de pasos =====
+  document.querySelectorAll('.step-head').forEach((head) => {
+    head.addEventListener('click', () => {
+      const step = head.closest('.step');
+      const body = step.querySelector('.step-body');
+      const isOpen = step.classList.contains('is-open');
+
+      if (isOpen) {
+        body.style.maxHeight = null;
+        step.classList.remove('is-open');
+        head.setAttribute('aria-expanded', 'false');
+      } else {
+        step.classList.add('is-open');
+        head.setAttribute('aria-expanded', 'true');
+        body.style.maxHeight = body.scrollHeight + 'px';
+      }
+    });
+  });
+
+  // ===== Selector de Sistema Operativo (Tabs) =====
+  document.querySelectorAll('.os-tab:not([disabled])').forEach((tab) => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.os-tab').forEach((t) => t.classList.remove('active'));
+      document.querySelectorAll('.os-content').forEach((c) => c.classList.remove('active'));
+      tab.classList.add('active');
+      const targetId = tab.getAttribute('data-target');
+      const targetElement = document.getElementById(targetId);
+      if(targetElement) {
+         targetElement.classList.add('active');
+      }
+    });
+  });
+
+  // ===== Fondo animado: grid de circuito con pulsos =====
+  (function () {
+    const canvas = document.getElementById('grid-bg');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    let w, h, cols, rows;
+    const spacing = 46;
+    let nodes = [];
+    let pulses = [];
+
+    function resize() {
+      w = canvas.width = window.innerWidth;
+      h = canvas.height = window.innerHeight;
+      cols = Math.ceil(w / spacing) + 1;
+      rows = Math.ceil(h / spacing) + 1;
+      buildNodes();
+    }
+
+    function buildNodes() {
+      nodes = [];
+      for (let y = 0; y < rows; y++) {
+        for (let x = 0; x < cols; x++) {
+          nodes.push({ x: x * spacing, y: y * spacing });
+        }
+      }
+    }
+
+    function spawnPulse() {
+      if (nodes.length === 0) return;
+      const startCol = Math.floor(Math.random() * cols);
+      const horizontal = Math.random() > 0.5;
+      pulses.push({
+        col: startCol,
+        pos: horizontal ? 0 : 0,
+        horizontal,
+        progress: 0,
+        speed: 0.006 + Math.random() * 0.01,
+        lane: Math.floor(Math.random() * (horizontal ? rows : cols)),
+      });
+      if (pulses.length > 14) pulses.shift();
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, w, h);
+
+      ctx.fillStyle = 'rgba(0, 210, 255, 0.05)';
+      for (const n of nodes) {
+        ctx.beginPath();
+        ctx.arc(n.x, n.y, 1, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      ctx.strokeStyle = 'rgba(255,255,255,0.015)';
+      ctx.lineWidth = 1;
+      for (let x = 0; x <= cols; x++) {
+        ctx.beginPath();
+        ctx.moveTo(x * spacing, 0);
+        ctx.lineTo(x * spacing, h);
+        ctx.stroke();
+      }
+      for (let y = 0; y <= rows; y++) {
+        ctx.beginPath();
+        ctx.moveTo(0, y * spacing);
+        ctx.lineTo(w, y * spacing);
+        ctx.stroke();
+      }
+
+      pulses.forEach((p) => {
+        p.progress += p.speed;
+        const alpha = Math.sin(p.progress * Math.PI); 
+        let px, py;
+        if (p.horizontal) {
+          px = p.progress * w;
+          py = p.lane * spacing;
+        } else {
+          px = p.lane * spacing;
+          py = p.progress * h;
+        }
+        const grad = ctx.createRadialGradient(px, py, 0, px, py, 60);
+        grad.addColorStop(0, `rgba(0, 210, 255, ${0.5 * alpha})`);
+        grad.addColorStop(1, 'rgba(0, 210, 255, 0)');
+        ctx.fillStyle = grad;
+        ctx.beginPath();
+        ctx.arc(px, py, 60, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.fillStyle = `rgba(180, 240, 255, ${alpha})`;
+        ctx.beginPath();
+        ctx.arc(px, py, 2, 0, Math.PI * 2);
+        ctx.fill();
+      });
+
+      pulses = pulses.filter((p) => p.progress < 1);
+    }
+
+    let lastSpawn = 0;
+    function loop(t) {
+      if (t - lastSpawn > 900) {
+        spawnPulse();
+        lastSpawn = t;
+      }
+      draw();
+      requestAnimationFrame(loop);
+    }
+
+    window.addEventListener('resize', resize);
+    resize();
+
+    if (!reduceMotion) {
+      requestAnimationFrame(loop);
+    } else {
+      draw();
+    }
+  })();
+</script>
+
+
+
+================================================================================
+ARCHIVO: src/components/sections/Win10Section.astro
+================================================================================
+---
+// src/components/sections/Win10Section.astro
+---
+<!-- ========================================== -->
+<!-- ========== CONTENIDO WINDOWS 10 ========== -->
+<!-- ========================================== -->
+<div id="win10" class="os-content active">
+  
+  <!-- VIDEO W10 -->
+  <section class="video-section" id="video-w10">
+    <div class="section-head">
+      <p class="section-kicker">// referencia original windows 10</p>
+      <h2>Mirá el video mientras seguís la guía</h2>
+      <p class="section-desc">Esta página resume y ordena en texto lo que se hace en el video de Windows 10.</p>
+    </div>
+    <div class="video-wrap">
+      <div class="video-frame">
+        <iframe src="https://www.youtube.com/embed/8lUWiZfunOM" title="La MEJOR Optimización para Windows 10 en 2023" frameborder="0" allowfullscreen></iframe>
+      </div>
+      <div class="video-meta">
+        <span class="badge">The_Tito</span>
+        <span class="video-title">La MEJOR Optimización para Windows 10 en 2023</span>
+        <a href="https://www.youtube.com/watch?v=8lUWiZfunOM" target="_blank" rel="noopener" class="link-out">Ver en YouTube ↗</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- AVISO W10 -->
+  <section class="warning-strip">
+    <div class="warning-inner">
+      <span class="warning-icon">⚠</span>
+      <p><strong>Antes de tocar nada:</strong> creá un punto de restauración (Paso 1). Si tenés SSD, <strong>nunca lo desfragmentes</strong> — solo optimizalo.</p>
+    </div>
+  </section>
+
+  <!-- PASOS W10 -->
+  <section class="steps-section" id="pasos-w10">
+    <div class="section-head">
+      <p class="section-kicker">// guía paso a paso</p>
+      <h2>Los 13 pasos para Windows 10</h2>
+    </div>
+    <div class="timeline">
+      
+      <article class="step" data-step="1">
+        <button class="step-head" aria-expanded="false">
+          <span class="step-num">01</span><span class="step-title">Crear un punto de restauración</span><span class="step-time">0:30</span><span class="step-chevron">▾</span>
+        </button>
+        <div class="step-body">
+          <div class="step-effect"><strong>¿Qué sucede al hacer esto?</strong> Crea una "foto" del estado actual de tu sistema. Si alguna configuración te da problemas, podés usar este punto para volver atrás sin perder tus archivos personales.</div>
+          <ol class="action-list">
+            <li>Abrí <code>Panel de control → Sistema → Protección del sistema</code>.</li>
+            <li>Configurá el uso de espacio en disco entre <strong>5% y 7%</strong>.</li>
+            <li>Aplicá y aceptá. Hacé clic en <strong>"Crear"</strong> y ponele un nombre identificable.</li>
+          </ol>
+        </div>
+      </article>
+
+      <article class="step" data-step="2">
+        <button class="step-head" aria-expanded="false">
+          <span class="step-num">02</span><span class="step-title">Deshabilitar temporizador de alta precisión</span><span class="step-time">0:46</span><span class="step-chevron">▾</span>
+        </button>
+        <div class="step-body">
+          <div class="step-effect"><strong>¿Qué sucede al hacer esto?</strong> El HPET a veces causa micro-cortes ("stuttering") y sube el input lag. Desactivarlo obliga a Windows a usar temporizadores más ligeros.</div>
+          <ol class="action-list">
+            <li>Abrí el <strong>Administrador de dispositivos</strong>.</li>
+            <li>Desplegá <strong>"Dispositivos del sistema"</strong>.</li>
+            <li>Buscá <strong>"Temporizador de eventos de alta precisión"</strong> y deshabilitalo.</li>
+          </ol>
+        </div>
+      </article>
+
+      <article class="step" data-step="3">
+        <button class="step-head" aria-expanded="false">
+          <span class="step-num">03</span><span class="step-title">Optimización de rendimiento visual</span><span class="step-time">1:09</span><span class="step-chevron">▾</span>
+        </button>
+        <div class="step-body">
+          <div class="step-effect"><strong>¿Qué sucede al hacer esto?</strong> Le quita carga de trabajo a la placa de video y al procesador desactivando animaciones y sombras innecesarias.</div>
+          <ol class="action-list">
+            <li>Buscá <strong>"Configuración de rendimiento visual"</strong>.</li>
+            <li>Elegí <strong>"Ajustar para obtener el mejor rendimiento"</strong>.</li>
+            <li>Volvé a activar: Suavizar bordes de fuentes, Mostrar miniaturas y Mostrar contenido al arrastrar.</li>
+          </ol>
+        </div>
+      </article>
+
+      <article class="step" data-step="4">
+        <button class="step-head" aria-expanded="false">
+          <span class="step-num">04</span><span class="step-title">Ajustes de Configuración de Windows</span><span class="step-time">1:36</span><span class="step-chevron">▾</span>
+        </button>
+        <div class="step-body">
+          <div class="step-effect"><strong>¿Qué sucede al hacer esto?</strong> Corta de raíz la telemetría y desactiva aplicaciones en segundo plano, liberando RAM y ancho de banda.</div>
+          <p class="step-group-label">Sistema y Privacidad</p>
+          <ul class="action-list bullets">
+            <li>Desactivar <strong>Asistente de concentración</strong> y activar <strong>Sensor de almacenamiento</strong>.</li>
+            <li>En Privacidad, desactivar: Voz, Diagnóstico, Historial, Ubicación, Notificaciones, Contactos, Aplicaciones en segundo plano, etc. (Dejar Cuenta de Microsoft activada).</li>
+            <li>En Colores, desactivar <strong>Efectos de transparencia</strong>.</li>
+            <li>En Optimización de distribución (Windows Update), limitar ancho de banda al <strong>5%</strong>.</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="step" data-step="5">
+        <button class="step-head" aria-expanded="false">
+          <span class="step-num">05</span><span class="step-title">Plan de energía en alto rendimiento</span><span class="step-time">3:19</span><span class="step-chevron">▾</span>
+        </button>
+        <div class="step-body">
+          <div class="step-effect"><strong>¿Qué sucede al hacer esto?</strong> Evita que los componentes entren en ahorro de energía, garantizando respuesta instantánea.</div>
+          <ol class="action-list">
+            <li>Seleccioná <strong>"Máximo rendimiento"</strong> en el Panel de Control.</li>
+            <li>En configuración avanzada: Apagar disco duro = 0 (nunca).</li>
+            <li>Estado mínimo y máximo del procesador = 100%. *(Ver consejo de temperaturas abajo si tu PC calienta mucho).*</li>
+          </ol>
+        </div>
+      </article>
+
+      <article class="step" data-step="6">
+        <button class="step-head" aria-expanded="false">
+          <span class="step-num">06</span><span class="step-title">Desactivar programas de inicio</span><span class="step-time">4:24</span><span class="step-chevron">▾</span>
+        </button>
+        <div class="step-body">
+          <div class="step-effect"><strong>¿Qué sucede al hacer esto?</strong> Acelera el encendido de la PC y evita que programas inútiles consuman RAM en segundo plano.</div>
+          <ol class="action-list">
+            <li>Abrí el Administrador de tareas → pestaña <strong>Inicio</strong>.</li>
+            <li>Desactivá todo lo que no necesites que arranque con Windows.</li>
+          </ol>
+        </div>
+      </article>
+
+      <article class="step" data-step="7">
+        <button class="step-head" aria-expanded="false">
+          <span class="step-num">07</span><span class="step-title">Limpieza del sistema</span><span class="step-time">4:44</span><span class="step-chevron">▾</span>
+        </button>
+        <div class="step-body">
+          <div class="step-effect"><strong>¿Qué sucede al hacer esto?</strong> Borra gigabytes de archivos temporales acumulados y agiliza las búsquedas del sistema.</div>
+          <ol class="action-list">
+            <li>Si tenés HDD: desfragmentar. Si tenés SSD: <strong>solo optimizar</strong>.</li>
+            <li>Ejecutá los scripts de limpieza del pack (PowerRUN) y borrá registros en el Visor de Eventos.</li>
+          </ol>
+        </div>
+      </article>
+
+      <article class="step" data-step="8">
+        <button class="step-head" aria-expanded="false">
+          <span class="step-num">08</span><span class="step-title">Optimización de periféricos</span><span class="step-time">6:11</span><span class="step-chevron">▾</span>
+        </button>
+        <div class="step-body">
+          <div class="step-effect"><strong>¿Qué sucede al hacer esto?</strong> El movimiento del mouse en pantalla pasa a ser una representación 1:1 del movimiento físico, clave para shooters.</div>
+          <ol class="action-list">
+            <li>Ejecutá los scripts de periféricos del pack.</li>
+            <li>En configuración del mouse, desactivá la <strong>Precisión de puntero</strong>.</li>
+          </ol>
+        </div>
+      </article>
+
+      <article class="step" data-step="9">
+        <button class="step-head" aria-expanded="false">
+          <span class="step-num">09</span><span class="step-title">Desactivar servicios innecesarios</span><span class="step-time">7:03</span><span class="step-chevron">▾</span>
+        </button>
+        <div class="step-body">
+          <div class="step-effect"><strong>¿Qué sucede al hacer esto?</strong> Apaga procesos invisibles por defecto (fax, cola de impresión), liberando subprocesos del procesador.</div>
+          <ol class="action-list">
+            <li>Ejecutá el script de <strong>"Servicios innecesarios"</strong> desde el pack con PowerRUN.</li>
+          </ol>
+        </div>
+      </article>
+
+      <article class="step" data-step="10">
+        <button class="step-head" aria-expanded="false">
+          <span class="step-num">10</span><span class="step-title">Ajustes en el Editor de registro</span><span class="step-time">7:56</span><span class="step-chevron">▾</span>
+        </button>
+        <div class="step-body">
+          <div class="step-effect"><strong>¿Qué sucede al hacer esto?</strong> Cambia el "PriorityControl", forzando a Windows a dedicarle mucha más atención al juego abierto en primer plano.</div>
+          <ol class="action-list">
+            <li>Modificá <code>Win32PrioritySeparation</code> en regedit. Valor decimal <strong>28</strong> (estabilidad) o <strong>26</strong> (menor input lag).</li>
+          </ol>
+        </div>
+      </article>
+
+      <article class="step" data-step="11">
+        <button class="step-head" aria-expanded="false">
+          <span class="step-num">11</span><span class="step-title">Optimizar la red (mejorar el ping)</span><span class="step-time">9:21</span><span class="step-chevron">▾</span>
+        </button>
+        <div class="step-body">
+          <div class="step-effect"><strong>¿Qué sucede al hacer esto?</strong> Quita protocolos obsoletos y establece servidores DNS veloces para bajar el ping.</div>
+          <ol class="action-list">
+            <li>En propiedades de red, dejá solo IPv4 y QoS.</li>
+            <li>Configurá DNS manuales (ej. Cloudflare 1.1.1.1 o Google 8.8.8.8).</li>
+          </ol>
+        </div>
+      </article>
+
+      <article class="step" data-step="12">
+        <button class="step-head" aria-expanded="false">
+          <span class="step-num">12</span><span class="step-title">Scripts avanzados: Chris Titus y RAM</span><span class="step-time">10:17</span><span class="step-chevron">▾</span>
+        </button>
+        <div class="step-body">
+          <div class="step-effect"><strong>¿Qué sucede al hacer esto?</strong> Aplican "tweaks" que manualmente tomarían horas, ajustando cómo Windows administra procesos y memoria.</div>
+          <ol class="action-list">
+            <li>Ejecutá el script de Chris Titus desde PowerShell y aplicá el perfil Desktop.</li>
+            <li>Usá el script de prioridad de RAM ingresando tu memoria en MB (ej. 16GB = 16384).</li>
+          </ol>
+        </div>
+      </article>
+
+      <article class="step" data-step="13">
+        <button class="step-head" aria-expanded="false">
+          <span class="step-num">13</span><span class="step-title">Instalar programas de rendimiento</span><span class="step-time">12:06</span><span class="step-chevron">▾</span>
+        </button>
+        <div class="step-body">
+          <div class="step-effect"><strong>¿Qué sucede al hacer esto?</strong> Despierta núcleos "dormidos" de la CPU y sube el polling rate de tus USBs a 1000Hz.</div>
+          <ol class="action-list">
+            <li>Usá Quick CPU para poner el mínimo/máximo al 100%.</li>
+            <li>Usá USB Boost para mouse y teclado a 1000 Hz.</li>
+          </ol>
+        </div>
+      </article>
+    </div>
+    
+    <!-- DESCARGA W10 -->
+    <section class="download-section" style="padding-top: 40px; padding-bottom:0;">
+      <div class="download-card">
+        <div class="download-left">
+          <p class="section-kicker">// pack de optimización w10</p>
+          <h2>Descargá el pack de The_Tito</h2>
+          <div class="download-actions">
+            <a href="https://www.mediafire.com/file/um4mrwl0ec10007/Pack_de_Optimizacion.rar/file" target="_blank" class="btn btn-primary btn-large">⬇ MediaFire (Win 10)</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </section>
+</div>
+
+
+
+================================================================================
+ARCHIVO: src/components/sections/Win11Section.astro
+================================================================================
+---
+// src/components/sections/Win11Section.astro
+---
+<!-- ========================================== -->
+<!-- ========== CONTENIDO WINDOWS 11 ========== -->
+<!-- ========================================== -->
+<div id="win11" class="os-content">
+  
+  <!-- VIDEO W11 -->
+  <section class="video-section">
+    <div class="section-head">
+      <p class="section-kicker">// referencia original windows 11</p>
+      <h2>Mirá el video de Windows 11</h2>
+    </div>
+    <div class="video-wrap">
+      <div class="video-frame">
+        <iframe src="https://www.youtube.com/embed/g2JOnVwzFj0" title="Optimización Windows 11" frameborder="0" allowfullscreen></iframe>
+      </div>
+      <div class="video-meta">
+        <span class="badge">The_Tito</span>
+        <span class="video-title">🔥Optimicé Windows 11 +100fps??📈🔥 | ¿Mejor para Gaming?⚙️</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- AVISO W11 -->
+  <section class="warning-strip">
+    <div class="warning-inner">
+      <span class="warning-icon">⚠</span>
+      <p><strong>Cuidado con los mitos:</strong> El creador advierte que <strong>NO debes tocar MSConfig</strong> (Número de procesadores). Windows ya usa todos los núcleos, limitarlos ahí puede causar errores de booteo graves.</p>
+    </div>
+  </section>
+
+  <!-- PASOS W11 -->
+  <section class="steps-section">
+    <div class="section-head">
+      <p class="section-kicker">// guía paso a paso</p>
+      <h2>Los 12 pasos para Windows 11</h2>
+    </div>
+    <div class="timeline">
+      
+      <article class="step" data-step="1">
+        <button class="step-head" aria-expanded="false"><span class="step-num">01</span><span class="step-title">Crear un punto de restauración</span><span class="step-time">0:30</span><span class="step-chevron">▾</span></button>
+        <div class="step-body">
+          <div class="step-effect"><strong>¿Qué sucede al hacer esto?</strong> Crea una copia de seguridad por si W11 se vuelve inestable.</div>
+          <ol class="action-list">
+            <li>Buscá "Crear un punto de restauración" en inicio. Asigná entre 5% y 6%.</li>
+          </ol>
+        </div>
+      </article>
+
+      <article class="step" data-step="2">
+        <button class="step-head" aria-expanded="false"><span class="step-num">02</span><span class="step-title">Activar Sensor de Almacenamiento</span><span class="step-time">2:00</span><span class="step-chevron">▾</span></button>
+        <div class="step-body">
+          <div class="step-effect"><strong>¿Qué sucede al hacer esto?</strong> Automatiza la limpieza del disco y papelera.</div>
+          <ol class="action-list">
+            <li><code>Configuración → Sistema → Almacenamiento</code>. Activar y configurar cada semana.</li>
+          </ol>
+        </div>
+      </article>
+
+      <article class="step" data-step="3">
+        <button class="step-head" aria-expanded="false"><span class="step-num">03</span><span class="step-title">Deshabilitar Game Mode y Xbox Game Bar</span><span class="step-time">2:22</span><span class="step-chevron">▾</span></button>
+        <div class="step-body">
+          <div class="step-effect"><strong>¿Qué sucede al hacer esto?</strong> Evita que Game Bar grabe en segundo plano y quite recursos.</div>
+          <ol class="action-list"><li><code>Configuración → Juegos</code>. Apagar Modo de Juego y Game Bar.</li></ol>
+        </div>
+      </article>
+
+      <article class="step" data-step="4">
+        <button class="step-head" aria-expanded="false"><span class="step-num">04</span><span class="step-title">Ajustar Rendimiento Visual</span><span class="step-time">2:36</span><span class="step-chevron">▾</span></button>
+        <div class="step-body">
+          <div class="step-effect"><strong>¿Qué sucede al hacer esto?</strong> Elimina animaciones fluidas y sombras, quitando estrés a la GPU.</div>
+          <ol class="action-list"><li>Opciones avanzadas del sistema → Rendimiento → "Ajustar para obtener el mejor rendimiento" (dejando miniaturas y fuentes suavizadas).</li></ol>
+        </div>
+      </article>
+
+      <article class="step" data-step="5">
+        <button class="step-head" aria-expanded="false"><span class="step-num">05</span><span class="step-title">Plan de Máximo Rendimiento</span><span class="step-time">4:01</span><span class="step-chevron">▾</span></button>
+        <div class="step-body">
+          <div class="step-effect"><strong>¿Qué sucede al hacer esto?</strong> Mantiene las frecuencias del procesador altas.</div>
+          <ol class="action-list"><li><code>Configuración → Sistema → Inicio y apagado</code> → Modo de energía: Máximo rendimiento.</li></ol>
+        </div>
+      </article>
+
+      <article class="step" data-step="6">
+        <button class="step-head" aria-expanded="false"><span class="step-num">06</span><span class="step-title">Desactivar Notificaciones</span><span class="step-time">4:24</span><span class="step-chevron">▾</span></button>
+        <div class="step-body">
+          <div class="step-effect"><strong>¿Qué sucede al hacer esto?</strong> Libera interrupciones del CPU y RAM.</div>
+          <ol class="action-list"><li><code>Configuración → Sistema → Notificaciones</code>. Apagar interruptor principal.</li></ol>
+        </div>
+      </article>
+
+      <article class="step" data-step="7">
+        <button class="step-head" aria-expanded="false"><span class="step-num">07</span><span class="step-title">Privacidad y Permisos</span><span class="step-time">4:51</span><span class="step-chevron">▾</span></button>
+        <div class="step-body">
+          <div class="step-effect"><strong>¿Qué sucede al hacer esto?</strong> Detiene telemetría pesada de Windows 11.</div>
+          <ol class="action-list"><li><code>Privacidad y seguridad</code>. Apagar General, Historial, y permisos no usados (Ubicación, Contactos).</li></ol>
+        </div>
+      </article>
+
+      <article class="step" data-step="8">
+        <button class="step-head" aria-expanded="false"><span class="step-num">08</span><span class="step-title">Transparencia y Personalización</span><span class="step-time">5:18</span><span class="step-chevron">▾</span></button>
+        <div class="step-body">
+          <div class="step-effect"><strong>¿Qué sucede al hacer esto?</strong> Quita el efecto "Mica" o acrílico, reduciendo trabajo de GPU al renderizar menús.</div>
+          <ol class="action-list"><li><code>Personalización → Colores</code> → Desactivar Efectos de transparencia.</li></ol>
+        </div>
+      </article>
+
+      <article class="step" data-step="9">
+        <button class="step-head" aria-expanded="false"><span class="step-num">09</span><span class="step-title">Limitar Ancho de Banda (Updates)</span><span class="step-time">5:35</span><span class="step-chevron">▾</span></button>
+        <div class="step-body">
+          <div class="step-effect"><strong>¿Qué sucede al hacer esto?</strong> Evita picos de ping porque Windows deje de descargar o subir updates de fondo.</div>
+          <ol class="action-list"><li><code>Windows Update → Opciones avanzadas → Optimización de distribución</code>. Limitar a 5% absoluto.</li></ol>
+        </div>
+      </article>
+
+      <article class="step" data-step="10">
+        <button class="step-head" aria-expanded="false"><span class="step-num">10</span><span class="step-title">Limpieza Manual de Temporales</span><span class="step-time">6:11</span><span class="step-chevron">▾</span></button>
+        <div class="step-body">
+          <div class="step-effect"><strong>¿Qué sucede al hacer esto?</strong> Libera espacio físico borrando basura de instaladores.</div>
+          <ol class="action-list"><li>Windows+R → borrar contenido de <code>temp</code> y <code>%temp%</code>.</li></ol>
+        </div>
+      </article>
+
+      <article class="step" data-step="11">
+        <button class="step-head" aria-expanded="false"><span class="step-num">11</span><span class="step-title">Desactivar Apps de Inicio</span><span class="step-time">6:37</span><span class="step-chevron">▾</span></button>
+        <div class="step-body">
+          <div class="step-effect"><strong>¿Qué sucede al hacer esto?</strong> Reduce dramáticamente el consumo de RAM inicial.</div>
+          <ol class="action-list"><li><code>Aplicaciones → Inicio</code>. Desactivar bloatware.</li></ol>
+        </div>
+      </article>
+
+      <article class="step" data-step="12">
+        <button class="step-head" aria-expanded="false"><span class="step-num">12</span><span class="step-title">Script Chris Titus (Debloat)</span><span class="step-time">7:00</span><span class="step-chevron">▾</span></button>
+        <div class="step-body">
+          <div class="step-effect"><strong>¿Qué sucede al hacer esto?</strong> Baja de 181 a 91 procesos en segundo plano aplicando tweaks de registro.</div>
+          <ol class="action-list">
+            <li>PowerShell (admin) → <code>irm christitus.com/win | iex</code></li>
+            <li>Pestaña Tweaks → Desktop → Run Tweaks.</li>
+          </ol>
+        </div>
+      </article>
+
+    </div>
+    
+    <!-- RESULTADOS W11 -->
+    <section class="tips-section" id="resultados-w11" style="padding-top: 40px; border-top:none;">
+      <div class="section-head">
+        <p class="section-kicker">// conclusiones del video</p>
+        <h2>Resultados W11: ¿Sirvió la optimización?</h2>
+      </div>
+      <div class="tips-grid">
+        <div class="tip-card">
+          <span class="tip-icon">🪂</span><h3>Fortnite</h3>
+          <p>De 80-95 fps a 83-98 fps. <strong>+5 a 8 FPS</strong> (única mejora real).</p>
+        </div>
+        <div class="tip-card">
+          <span class="tip-icon">🧟</span><h3>Dying Light</h3>
+          <p>De 33 fps a 31 fps. <strong>-2 FPS</strong>.</p>
+        </div>
+        <div class="tip-card">
+          <span class="tip-icon">🔫</span><h3>Counter Strike 2</h3>
+          <p>De 74 fps a 70 fps. <strong>-4 FPS</strong>.</p>
+        </div>
+        <div class="tip-card" style="grid-column: 1 / -1; border-color: var(--warn); background: var(--warn-glow);">
+          <span class="tip-icon">⚖️</span>
+          <h3>Veredicto Final</h3>
+          <p>Aunque el script bajó los procesos de 181 a 91 (genial para escritorio), en Gaming puro W11 no mejoró significativamente. <strong>Recomendación: Si querés exprimir máximo rendimiento en PC de bajos recursos, usá Windows 10.</strong></p>
+        </div>
+      </div>
+    </section>
+  </section>
+</div>
+
+
+
+================================================================================
+ARCHIVO: src/components/ui/Hero.astro
+================================================================================
+---
+// src/components/ui/Hero.astro
+---
+<section class="hero" id="top">
+  <div class="hero-inner" style="text-align: center;">
+    <p class="eyebrow"><span class="dot"></span> Guías basadas en video · Texto plano</p>
+    <h1 style="margin-inline: auto;">La optimización definitiva<br>para tu PC de bajos recursos.</h1>
+    <p class="hero-sub" style="margin-inline: auto;">Procesos, servicios, energía y red explicados paso a paso para que entiendas qué estás tocando. Elegí tu sistema operativo para empezar.</p>
+  </div>
+</section>
+
+
+
+================================================================================
+ARCHIVO: src/components/ui/Tabs.astro
+================================================================================
+---
+// src/components/ui/Tabs.astro
+---
+<div class="os-tabs">
+  <button class="os-tab active" data-target="win10">
+    <img src="/w10.png" alt="Windows 10 Logo" style="width: 48px; height: 48px; object-fit: contain; margin-bottom: 8px;">
+    Windows 10
+  </button>
+  
+  <button class="os-tab" data-target="win11">
+    <img src="/w11.webp" alt="Windows 11 Logo" style="width: 48px; height: 48px; object-fit: contain; margin-bottom: 8px;">
+    Windows 11
+  </button>
+
+  <button class="os-tab opacity-50 cursor-not-allowed" data-target="linux" disabled title="Próximamente">
+    <img src="/ActWin.webp" alt="Windows 10 Logo" style="width: 48px; height: 48px; object-fit: contain; margin-bottom: 8px;">
+    Activacion Windows
+    <span class="text-xs text-brandAccent block mt-1">Próximamente</span>
+  </button>
+
+  <button class="os-tab opacity-50 cursor-not-allowed" data-target="macos" disabled title="Próximamente">
+    <img src="/Spotify.png" alt="Windows 10 Logo" style="width: 48px; height: 48px; object-fit: contain; margin-bottom: 8px;">
+    Activacion Spotify
+    <span class="text-xs text-brandAccent block mt-1">Próximamente</span>
+  </button>
+</div>
+
+<style>
+  /* Ajustes adicionales para los tabs deshabilitados y las imágenes */
+  .os-tab {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 16px 24px;
+    min-width: 140px;
+  }
+  .os-tab:disabled {
+    pointer-events: none;
+    filter: grayscale(100%);
+  }
+</style>
+
+
+
+================================================================================
+ARCHIVO: src/env.d.ts
+================================================================================
+/// <reference path="../.astro/types.d.ts" />
+
+
+================================================================================
+ARCHIVO: src/layouts/Layout.astro
+================================================================================
+---
+import '../styles/global.css';
+interface Props {
+  title: string;
+}
+const { title } = Astro.props;
+---
+<!doctype html>
+<html lang="es" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content="Guía de optimización de Windows para Gaming" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+  </head>
+  <body class="m-0 bg-brandBg text-gray-200">
+    <!-- Fondo Animado Canvas -->
+    <canvas id="grid-bg" class="fixed inset-0 w-full h-full -z-20 bg-brandBg"></canvas>
+    <div class="scan-line"></div>
+
+    <header class="sticky top-0 z-50 border-b border-[#1f2327] backdrop-blur-md bg-[#08090b]/70">
+      <div class="max-w-[1080px] mx-auto px-6 py-4 flex items-center justify-between">
+        <div class="font-mono font-semibold tracking-wide flex items-baseline gap-2">
+          <span class="text-brandAccent">&gt;_</span>
+          <span class="text-[15px]">OPTIMIZA<span class="text-brandAccent">WIN</span></span>
+        </div>
+        <nav class="hidden md:flex items-center gap-7 text-sm text-[#8b929c]">
+          <a href="#video" class="hover:text-white transition-colors">Video</a>
+          <a href="#pasos" class="hover:text-white transition-colors">Guía</a>
+          <a href="#consejos" class="hover:text-white transition-colors">Resultados</a>
+        </nav>
+      </div>
+    </header>
+
+    <slot />
+  </body>
+</html>
+
+
+
+================================================================================
+ARCHIVO: src/pages/index.astro
+================================================================================
+---
+import Layout from '../layouts/Layout.astro';
+
+// Componentes modulares
+import Hero from '../components/ui/Hero.astro';
+import Tabs from '../components/ui/Tabs.astro';
+
+// Secciones de contenido (Agrega nuevas aquí fácilmente)
+import Win10Section from '../components/sections/Win10Section.astro';
+import Win11Section from '../components/sections/Win11Section.astro';
+
+// Lógica del cliente
+import MainScripts from '../components/scripts/MainScripts.astro';
+---
+
+<Layout title="Optimización Windows 10 y 11 — Guía">
+  <main>
+    <!-- HERO -->
+    <Hero />
+
+    <!-- TABS SELECTOR -->
+    <Tabs />
+
+    <!-- CONTENEDORES DE SO -->
+    <Win10Section />
+    <Win11Section />
+  </main>
+
+  <!-- Lógica y Animaciones -->
+  <MainScripts />
+</Layout>
+
+
+
+================================================================================
+ARCHIVO: src/styles/global.css
+================================================================================
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ==========================================================================
+   RESETEO ANTI-TAILWIND PREFLIGHT (Para recuperar la estructura original)
+   ========================================================================== */
+@layer base {
+  h1, h2, h3 { font-weight: 700; display: block; }
+  ul, ol { padding: 0; margin: 0; }
+  button { font-family: inherit; }
+}
+
+/* ===== Tokens y Variables ===== */
+:root {
+  --bg: #08090b;
+  --bg-raised: #0e1013;
+  --bg-card: #121417;
+  --border: #1f2327;
+  --border-soft: #191c1f;
+  --text: #e8eaed;
+  --text-dim: #8b929c;
+  --text-faint: #565c64;
+  --accent: #00d2ff; 
+  --accent-dim: #008eb3;
+  --accent-glow: rgba(0, 210, 255, 0.18);
+  --warn: #ffb02e;
+  --warn-glow: rgba(255, 176, 46, 0.12);
+  --mono: "JetBrains Mono", "Fira Code", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --radius: 10px;
+  --max-w: 1080px;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: var(--accent-glow);
+  color: var(--accent);
+}
+
+a { color: inherit; text-decoration: none; }
+
+code {
+  font-family: var(--mono);
+  background: var(--bg-raised);
+  border: 1px solid var(--border);
+  padding: 0.1em 0.45em;
+  border-radius: 4px;
+  font-size: 0.88em;
+  color: var(--accent);
+}
+
+/* ===== Background canvas grid ===== */
+#grid-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  width: 100%;
+  height: 100%;
+  background: var(--bg);
+}
+
+.scan-line {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.012) 0px,
+    rgba(255, 255, 255, 0.012) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+}
+
+/* ===== Header ===== */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  backdrop-filter: blur(14px);
+  background: rgba(8, 9, 11, 0.72);
+  border-bottom: 1px solid var(--border-soft);
+}
+
+.header-inner {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding: 16px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.brand {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  font-family: var(--mono);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+.brand-mark { color: var(--accent); }
+.brand-text { font-size: 15px; }
+.brand-text .accent { color: var(--accent); }
+
+.header-nav {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  font-size: 14px;
+  color: var(--text-dim);
+}
+.header-nav a { transition: color 0.15s ease; }
+.header-nav a:hover { color: var(--text); }
+
+/* ===== Hero ===== */
+.hero {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding: 96px 24px 64px;
+}
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--mono);
+  font-size: 12.5px;
+  letter-spacing: 0.06em;
+  color: var(--text-dim);
+  border: 1px solid var(--border);
+  padding: 6px 14px;
+  border-radius: 100px;
+  margin: 0 0 28px;
+}
+.dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 8px var(--accent);
+  animation: pulse 2s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.35; }
+}
+.hero h1 {
+  font-size: clamp(2.1rem, 5vw, 3.5rem);
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+  font-weight: 700;
+  margin: 0 0 24px;
+  max-width: 780px;
+}
+.hero-sub {
+  font-size: 17px;
+  color: var(--text-dim);
+  max-width: 560px;
+  margin: 0 0 36px;
+}
+
+.btn {
+  font-family: var(--sans);
+  font-weight: 600;
+  font-size: 14.5px;
+  padding: 13px 24px;
+  border-radius: 8px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.18s ease;
+  border: 1px solid transparent;
+  cursor: pointer;
+  text-decoration: none;
+}
+.btn-primary {
+  background: var(--accent);
+  color: #06110c;
+}
+.btn-primary:hover {
+  background: #a6ecff;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 24px var(--accent-glow);
+}
+.btn-large {
+  padding: 16px 30px;
+  font-size: 15.5px;
+}
+
+/* ===== Section headers ===== */
+.section-head {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding: 0 24px;
+  margin-bottom: 40px;
+}
+.section-kicker {
+  font-family: var(--mono);
+  font-size: 12.5px;
+  color: var(--accent-dim);
+  letter-spacing: 0.05em;
+  margin: 0 0 12px;
+}
+.section-head h2 {
+  font-size: clamp(1.6rem, 3.4vw, 2.1rem);
+  letter-spacing: -0.01em;
+  margin: 0 0 12px;
+  font-weight: 700;
+}
+.section-desc {
+  color: var(--text-dim);
+  max-width: 560px;
+  margin: 0;
+  font-size: 15.5px;
+}
+
+/* ===== Video section ===== */
+.video-section {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding: 72px 24px;
+  border-top: 1px solid var(--border-soft);
+}
+.video-wrap {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: var(--bg-raised);
+}
+.video-frame {
+  position: relative;
+  width: 100%;
+  padding-top: 56.25%;
+  background: #000;
+}
+.video-frame iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+.video-meta {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 18px 20px;
+  border-top: 1px solid var(--border-soft);
+  flex-wrap: wrap;
+}
+.badge {
+  font-family: var(--mono);
+  font-size: 12px;
+  background: var(--accent-glow);
+  color: var(--accent);
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-weight: 600;
+}
+.video-title { font-size: 14.5px; color: var(--text-dim); flex: 1; }
+.link-out { font-size: 13.5px; color: var(--accent); white-space: nowrap; }
+
+/* ===== Warning strip ===== */
+.warning-strip {
+  border-top: 1px solid var(--border-soft);
+  border-bottom: 1px solid var(--border-soft);
+  background: var(--warn-glow);
+}
+.warning-inner {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding: 18px 24px;
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+.warning-icon { color: var(--warn); font-size: 18px; flex-shrink: 0; }
+.warning-inner p { margin: 0; font-size: 14.5px; color: var(--text); line-height: 1.55; }
+.warning-inner strong { color: var(--warn); }
+
+/* ===== Steps / timeline ===== */
+.steps-section {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding: 72px 24px;
+}
+.timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.step {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-card);
+  overflow: hidden;
+  transition: border-color 0.2s ease;
+}
+.step:hover { border-color: var(--border-soft); }
+.step.is-open { border-color: var(--accent-dim); }
+
+.step-head {
+  all: unset;
+  box-sizing: border-box;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 18px 22px;
+  cursor: pointer;
+}
+.step-num {
+  font-family: var(--mono);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--accent);
+  background: var(--accent-glow);
+  min-width: 34px;
+  height: 34px;
+  border-radius: 7px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.step-title {
+  flex: 1;
+  font-size: 15.5px;
+  font-weight: 600;
+  color: var(--text);
+  margin: 0;
+}
+.step-time {
+  font-family: var(--mono);
+  font-size: 12.5px;
+  color: var(--text-faint);
+  border: 1px solid var(--border);
+  padding: 3px 9px;
+  border-radius: 100px;
+  flex-shrink: 0;
+}
+.step-chevron {
+  color: var(--text-faint);
+  transition: transform 0.25s ease;
+  flex-shrink: 0;
+  font-size: 13px;
+}
+.step.is-open .step-chevron {
+  transform: rotate(180deg);
+  color: var(--accent);
+}
+
+.step-body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.35s ease;
+  padding: 0 22px;
+}
+.step.is-open .step-body {
+  padding: 4px 22px 26px;
+}
+
+.step-effect {
+  font-size: 14px;
+  color: var(--text);
+  background: var(--accent-glow);
+  padding: 12px 16px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  border-left: 3px solid var(--accent);
+  line-height: 1.5;
+}
+.step-effect strong { color: var(--accent); }
+
+.step-group-label {
+  font-family: var(--mono);
+  font-size: 12.5px;
+  color: var(--accent-dim);
+  letter-spacing: 0.02em;
+  margin: 22px 0 10px;
+  text-transform: uppercase;
+}
+
+/* LISTAS DENTRO DE LOS PASOS */
+.action-list {
+  margin: 0 0 6px;
+  padding-left: 22px;
+  color: var(--text-dim);
+  font-size: 14.5px;
+  list-style-type: decimal;
+}
+.action-list li { margin-bottom: 10px; }
+.action-list li strong { color: var(--text); }
+.action-list.bullets { list-style-type: disc; }
+
+/* ===== Tips / Resultados section ===== */
+.tips-section {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding: 72px 24px;
+  border-top: 1px solid var(--border-soft);
+}
+.tips-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+}
+.tip-card {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-card);
+  padding: 24px;
+  transition: border-color 0.2s ease, transform 0.2s ease;
+}
+.tip-card:hover {
+  border-color: var(--accent-dim);
+  transform: translateY(-2px);
+}
+.tip-icon { font-size: 22px; display: block; margin-bottom: 14px; }
+.tip-card h3 { font-size: 15px; margin: 0 0 10px; color: var(--text); }
+.tip-card p { font-size: 13.8px; color: var(--text-dim); margin: 0; line-height: 1.6; }
+.tip-card strong { color: var(--accent); }
+
+/* ===== Selector de SO (Tabs) ===== */
+.os-tabs {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin: -32px auto 48px;
+  max-width: var(--max-w);
+  padding: 0 24px;
+  position: relative;
+  z-index: 10;
+}
+.os-tab {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  color: var(--text-dim);
+  padding: 16px 32px;
+  border-radius: 12px;
+  font-size: 18px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: var(--sans);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 160px;
+}
+.os-tab:hover {
+  border-color: var(--accent-dim);
+  color: var(--text);
+}
+.os-tab.active {
+  background: var(--accent-glow);
+  border-color: var(--accent);
+  color: var(--accent);
+  box-shadow: 0 4px 20px var(--accent-glow);
+}
+.os-content { display: none; }
+.os-content.active {
+  display: block;
+  animation: fadeIn 0.4s ease forwards;
+}
+
+/* ===== Download section ===== */
+.download-section {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding: 72px 24px 100px;
+}
+.download-card {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 40px;
+  align-items: center;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: linear-gradient(135deg, var(--bg-card), var(--bg-raised));
+  padding: 48px;
+  position: relative;
+  overflow: hidden;
+}
+.download-card::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  right: -20%;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, var(--accent-glow), transparent 70%);
+  pointer-events: none;
+}
+.download-left h2 {
+  font-size: clamp(1.5rem, 3vw, 1.9rem);
+  margin: 0 0 16px;
+  font-weight: 700;
+}
+.download-left p {
+  color: var(--text-dim);
+  font-size: 15px;
+  max-width: 440px;
+  margin: 0 0 28px;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 720px) {
+  .hero h1 { font-size: 2rem; }
+  .os-tabs { flex-direction: column; margin-top: 0; }
+  .download-card { grid-template-columns: 1fr; padding: 28px; }
+  .step-time { display: none; }
+  .header-nav a { display: none; }
+}
+
+
+
+================================================================================
+DIRECTORIO PUBLIC (Solo rutas, sin contenido):
+================================================================================
+public/ActWin.webp
+public/old/actualizar_web.sh
+public/old/index.html
+public/old/README.md
+public/old/style.css
+public/Spotify.png
+public/w10.png
+public/w11.webp
+
+
+

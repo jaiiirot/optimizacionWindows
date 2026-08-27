@@ -1,0 +1,154 @@
+---
+// src/components/scripts/MainScripts.astro
+---
+<script is:inline>
+  // ===== Acordeón de pasos =====
+  document.querySelectorAll('.step-head').forEach((head) => {
+    head.addEventListener('click', () => {
+      const step = head.closest('.step');
+      const body = step.querySelector('.step-body');
+      const isOpen = step.classList.contains('is-open');
+
+      if (isOpen) {
+        body.style.maxHeight = null;
+        step.classList.remove('is-open');
+        head.setAttribute('aria-expanded', 'false');
+      } else {
+        step.classList.add('is-open');
+        head.setAttribute('aria-expanded', 'true');
+        body.style.maxHeight = body.scrollHeight + 'px';
+      }
+    });
+  });
+
+  // ===== Selector de Sistema Operativo (Tabs) =====
+  document.querySelectorAll('.os-tab:not([disabled])').forEach((tab) => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.os-tab').forEach((t) => t.classList.remove('active'));
+      document.querySelectorAll('.os-content').forEach((c) => c.classList.remove('active'));
+      tab.classList.add('active');
+      const targetId = tab.getAttribute('data-target');
+      const targetElement = document.getElementById(targetId);
+      if(targetElement) {
+         targetElement.classList.add('active');
+      }
+    });
+  });
+
+  // ===== Fondo animado: grid de circuito con pulsos =====
+  (function () {
+    const canvas = document.getElementById('grid-bg');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    let w, h, cols, rows;
+    const spacing = 46;
+    let nodes = [];
+    let pulses = [];
+
+    function resize() {
+      w = canvas.width = window.innerWidth;
+      h = canvas.height = window.innerHeight;
+      cols = Math.ceil(w / spacing) + 1;
+      rows = Math.ceil(h / spacing) + 1;
+      buildNodes();
+    }
+
+    function buildNodes() {
+      nodes = [];
+      for (let y = 0; y < rows; y++) {
+        for (let x = 0; x < cols; x++) {
+          nodes.push({ x: x * spacing, y: y * spacing });
+        }
+      }
+    }
+
+    function spawnPulse() {
+      if (nodes.length === 0) return;
+      const startCol = Math.floor(Math.random() * cols);
+      const horizontal = Math.random() > 0.5;
+      pulses.push({
+        col: startCol,
+        pos: horizontal ? 0 : 0,
+        horizontal,
+        progress: 0,
+        speed: 0.006 + Math.random() * 0.01,
+        lane: Math.floor(Math.random() * (horizontal ? rows : cols)),
+      });
+      if (pulses.length > 14) pulses.shift();
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, w, h);
+
+      ctx.fillStyle = 'rgba(0, 210, 255, 0.05)';
+      for (const n of nodes) {
+        ctx.beginPath();
+        ctx.arc(n.x, n.y, 1, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      ctx.strokeStyle = 'rgba(255,255,255,0.015)';
+      ctx.lineWidth = 1;
+      for (let x = 0; x <= cols; x++) {
+        ctx.beginPath();
+        ctx.moveTo(x * spacing, 0);
+        ctx.lineTo(x * spacing, h);
+        ctx.stroke();
+      }
+      for (let y = 0; y <= rows; y++) {
+        ctx.beginPath();
+        ctx.moveTo(0, y * spacing);
+        ctx.lineTo(w, y * spacing);
+        ctx.stroke();
+      }
+
+      pulses.forEach((p) => {
+        p.progress += p.speed;
+        const alpha = Math.sin(p.progress * Math.PI); 
+        let px, py;
+        if (p.horizontal) {
+          px = p.progress * w;
+          py = p.lane * spacing;
+        } else {
+          px = p.lane * spacing;
+          py = p.progress * h;
+        }
+        const grad = ctx.createRadialGradient(px, py, 0, px, py, 60);
+        grad.addColorStop(0, `rgba(0, 210, 255, ${0.5 * alpha})`);
+        grad.addColorStop(1, 'rgba(0, 210, 255, 0)');
+        ctx.fillStyle = grad;
+        ctx.beginPath();
+        ctx.arc(px, py, 60, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.fillStyle = `rgba(180, 240, 255, ${alpha})`;
+        ctx.beginPath();
+        ctx.arc(px, py, 2, 0, Math.PI * 2);
+        ctx.fill();
+      });
+
+      pulses = pulses.filter((p) => p.progress < 1);
+    }
+
+    let lastSpawn = 0;
+    function loop(t) {
+      if (t - lastSpawn > 900) {
+        spawnPulse();
+        lastSpawn = t;
+      }
+      draw();
+      requestAnimationFrame(loop);
+    }
+
+    window.addEventListener('resize', resize);
+    resize();
+
+    if (!reduceMotion) {
+      requestAnimationFrame(loop);
+    } else {
+      draw();
+    }
+  })();
+</script>

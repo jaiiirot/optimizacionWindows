@@ -1,0 +1,41 @@
+---
+// src/components/ui/Tabs.astro
+---
+<div class="os-tabs">
+  <button class="os-tab active" data-target="win10">
+    <img src="/w10.png" alt="Windows 10 Logo" style="width: 48px; height: 48px; object-fit: contain; margin-bottom: 8px;">
+    Windows 10
+  </button>
+  
+  <button class="os-tab" data-target="win11">
+    <img src="/w11.webp" alt="Windows 11 Logo" style="width: 48px; height: 48px; object-fit: contain; margin-bottom: 8px;">
+    Windows 11
+  </button>
+
+  <button class="os-tab" data-target="actwin">
+    <img src="/ActWin.webp" alt="Activación Windows Logo" style="width: 48px; height: 48px; object-fit: contain; margin-bottom: 8px;">
+    Activación Windows
+  </button>
+
+  <button class="os-tab opacity-50 cursor-not-allowed" data-target="spotify" disabled title="Próximamente">
+    <img src="/Spotify.png" alt="Spotify Logo" style="width: 48px; height: 48px; object-fit: contain; margin-bottom: 8px;">
+    Activación Spotify
+    <span class="text-xs text-brandAccent block mt-1">Próximamente</span>
+  </button>
+</div>
+
+<style>
+  /* Ajustes adicionales para los tabs deshabilitados y las imágenes */
+  .os-tab {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 16px 24px;
+    min-width: 140px;
+  }
+  .os-tab:disabled {
+    pointer-events: none;
+    filter: grayscale(100%);
+  }
+</style>

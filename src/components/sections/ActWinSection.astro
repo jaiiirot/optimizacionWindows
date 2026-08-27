@@ -1,0 +1,88 @@
+---
+// src/components/sections/ActWinSection.astro
+---
+<!-- ========================================== -->
+<!-- ========== CONTENIDO ACTIVACIÓN WINDOWS ========== -->
+<!-- ========================================== -->
+<div id="actwin" class="os-content">
+  
+  <!-- VIDEO ACTIVACIÓN -->
+  <section class="video-section" id="video-actwin">
+    <div class="section-head">
+      <p class="section-kicker">// referencia original activación</p>
+      <h2>Cómo activar Windows y Office</h2>
+      <p class="section-desc">Guía rápida basada en el proyecto de código abierto Microsoft Activation Scripts (MAS).</p>
+    </div>
+    <div class="video-wrap">
+      <div class="video-frame">
+        <iframe src="https://www.youtube.com/embed/fi20Uei05y8" title="Como activar windows" frameborder="0" allowfullscreen></iframe>
+      </div>
+      <div class="video-meta">
+        <span class="badge">Juan Martin Barrientos Lorusso</span>
+        <span class="video-title">Como activar windows</span>
+        <a href="https://www.youtube.com/watch?v=fi20Uei05y8" target="_blank" rel="noopener" class="link-out">Ver en YouTube ↗</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- AVISO ACTIVACIÓN -->
+  <section class="warning-strip">
+    <div class="warning-inner">
+      <span class="warning-icon">ℹ️</span>
+      <p><strong>Nota:</strong> Este método utiliza <strong>Microsoft Activation Scripts (MAS)</strong>, un proyecto de código abierto transparente y seguro alojado en GitHub. No contiene software malicioso.</p>
+    </div>
+  </section>
+
+  <!-- PASOS ACTIVACIÓN -->
+  <section class="steps-section" id="pasos-actwin">
+    <div class="section-head">
+      <p class="section-kicker">// guía paso a paso</p>
+      <h2>Los pasos para activar Windows u Office</h2>
+    </div>
+    <div class="timeline">
+      
+      <article class="step" data-step="1">
+        <button class="step-head" aria-expanded="false">
+          <span class="step-num">01</span><span class="step-title">Abrir PowerShell</span><span class="step-time">0:22</span><span class="step-chevron">▾</span>
+        </button>
+        <div class="step-body">
+          <div class="step-effect"><strong>¿Qué sucede al hacer esto?</strong> Se abre la consola de comandos de Windows necesaria para ejecutar el script.</div>
+          <ol class="action-list">
+            <li>Presioná la tecla de Windows y escribí <strong>PowerShell</strong>.</li>
+            <li>Hacé clic en la aplicación para abrirla (preferiblemente como administrador).</li>
+          </ol>
+        </div>
+      </article>
+
+      <article class="step" data-step="2">
+        <button class="step-head" aria-expanded="false">
+          <span class="step-num">02</span><span class="step-title">Ejecutar el comando MAS</span><span class="step-time">0:33</span><span class="step-chevron">▾</span>
+        </button>
+        <div class="step-body">
+          <div class="step-effect"><strong>¿Qué sucede al hacer esto?</strong> El comando descarga y ejecuta el script de activación de forma segura.</div>
+          <ol class="action-list">
+            <li>Copiá el siguiente código:</li>
+            <code>irm https://get.activated.win | iex</code>
+            <li>Pegalo en la ventana de PowerShell y presioná Enter.</li>
+          </ol>
+        </div>
+      </article>
+
+      <article class="step" data-step="3">
+        <button class="step-head" aria-expanded="false">
+          <span class="step-num">03</span><span class="step-title">Seleccionar la opción de activación</span><span class="step-time">0:37</span><span class="step-chevron">▾</span>
+        </button>
+        <div class="step-body">
+          <div class="step-effect"><strong>¿Qué sucede al hacer esto?</strong> Le indicás al script qué producto de Microsoft querés activar.</div>
+          <ol class="action-list">
+            <li>Se abrirá un menú interactivo en la consola.</li>
+            <li>Presioná el número <strong>1</strong> para activar <strong>Windows</strong>.</li>
+            <li>Presioná el número <strong>2</strong> para activar <strong>Office</strong>.</li>
+            <li>El proceso se realizará automáticamente. Te indicará si la activación fue exitosa o si ya estaba activado previamente.</li>
+          </ol>
+        </div>
+      </article>
+
+    </div>
+  </section>
+</div>
