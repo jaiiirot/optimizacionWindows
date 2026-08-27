@@ -1,0 +1,611 @@
+#!/bin/bash
+
+# Este script debe ejecutarse dentro de la carpeta 'optimizawin-astro'
+if [ ! -d "src/pages" ]; then
+  echo "❌ Error: Este script debe ejecutarse DENTRO de la carpeta optimizawin-astro."
+  echo "Asegurate de hacer 'cd optimizawin-astro' primero."
+  exit 1
+fi
+
+echo "📄 Inyectando todo el contenido detallado de Windows 10 y 11 en src/pages/index.astro..."
+
+cat << 'EOF' > src/pages/index.astro
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Optimización Windows 10 y 11 — Guía">
+  <main>
+    <!-- HERO -->
+    <section class="hero" id="top">
+      <div class="hero-inner" style="text-align: center;">
+        <p class="eyebrow"><span class="dot"></span> Guías basadas en video · Texto plano</p>
+        <h1 style="margin-inline: auto;">La optimización definitiva<br>para tu PC de bajos recursos.</h1>
+        <p class="hero-sub" style="margin-inline: auto;">Procesos, servicios, energía y red explicados paso a paso para que entiendas qué estás tocando. Elegí tu sistema operativo para empezar.</p>
+      </div>
+    </section>
+
+    <!-- TABS SELECTOR -->
+    <div class="os-tabs">
+      <button class="os-tab active" data-target="win10">
+        <span style="font-size: 24px; display: block; margin-bottom: 4px;">🪟</span>
+        Windows 10
+      </button>
+      <button class="os-tab" data-target="win11">
+        <span style="font-size: 24px; display: block; margin-bottom: 4px;">✨</span>
+        Windows 11
+      </button>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- ========== CONTENIDO WINDOWS 10 ========== -->
+    <!-- ========================================== -->
+    <div id="win10" class="os-content active">
+      
+      <!-- VIDEO W10 -->
+      <section class="video-section" id="video-w10">
+        <div class="section-head">
+          <p class="section-kicker">// referencia original windows 10</p>
+          <h2>Mirá el video mientras seguís la guía</h2>
+          <p class="section-desc">Esta página resume y ordena en texto lo que se hace en el video de Windows 10.</p>
+        </div>
+        <div class="video-wrap">
+          <div class="video-frame">
+            <iframe src="https://www.youtube.com/embed/8lUWiZfunOM" title="La MEJOR Optimización para Windows 10 en 2023" frameborder="0" allowfullscreen></iframe>
+          </div>
+          <div class="video-meta">
+            <span class="badge">The_Tito</span>
+            <span class="video-title">La MEJOR Optimización para Windows 10 en 2023</span>
+            <a href="https://www.youtube.com/watch?v=8lUWiZfunOM" target="_blank" rel="noopener" class="link-out">Ver en YouTube ↗</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- AVISO W10 -->
+      <section class="warning-strip">
+        <div class="warning-inner">
+          <span class="warning-icon">⚠</span>
+          <p><strong>Antes de tocar nada:</strong> creá un punto de restauración (Paso 1). Si tenés SSD, <strong>nunca lo desfragmentes</strong> — solo optimizalo.</p>
+        </div>
+      </section>
+
+      <!-- PASOS W10 -->
+      <section class="steps-section" id="pasos-w10">
+        <div class="section-head">
+          <p class="section-kicker">// guía paso a paso</p>
+          <h2>Los 13 pasos para Windows 10</h2>
+        </div>
+        <div class="timeline">
+          
+          <!-- Paso 1 -->
+          <article class="step" data-step="1">
+            <button class="step-head" aria-expanded="false">
+              <span class="step-num">01</span><span class="step-title">Crear un punto de restauración</span><span class="step-time">0:30</span><span class="step-chevron">▾</span>
+            </button>
+            <div class="step-body">
+              <div class="step-effect"><strong>¿Qué sucede al hacer esto?</strong> Crea una "foto" del estado actual de tu sistema. Si alguna configuración te da problemas, podés usar este punto para volver atrás sin perder tus archivos personales.</div>
+              <ol class="action-list">
+                <li>Abrí <code>Panel de control → Sistema → Protección del sistema</code>.</li>
+                <li>Configurá el uso de espacio en disco entre <strong>5% y 7%</strong>.</li>
+                <li>Aplicá y aceptá. Hacé clic en <strong>"Crear"</strong> y ponele un nombre identificable.</li>
+              </ol>
+            </div>
+          </article>
+
+          <!-- Paso 2 -->
+          <article class="step" data-step="2">
+            <button class="step-head" aria-expanded="false">
+              <span class="step-num">02</span><span class="step-title">Deshabilitar temporizador de alta precisión</span><span class="step-time">0:46</span><span class="step-chevron">▾</span>
+            </button>
+            <div class="step-body">
+              <div class="step-effect"><strong>¿Qué sucede al hacer esto?</strong> El HPET a veces causa micro-cortes ("stuttering") y sube el input lag. Desactivarlo obliga a Windows a usar temporizadores más ligeros.</div>
+              <ol class="action-list">
+                <li>Abrí el <strong>Administrador de dispositivos</strong>.</li>
+                <li>Desplegá <strong>"Dispositivos del sistema"</strong>.</li>
+                <li>Buscá <strong>"Temporizador de eventos de alta precisión"</strong> y deshabilitalo.</li>
+              </ol>
+            </div>
+          </article>
+
+          <!-- Paso 3 -->
+          <article class="step" data-step="3">
+            <button class="step-head" aria-expanded="false">
+              <span class="step-num">03</span><span class="step-title">Optimización de rendimiento visual</span><span class="step-time">1:09</span><span class="step-chevron">▾</span>
+            </button>
+            <div class="step-body">
+              <div class="step-effect"><strong>¿Qué sucede al hacer esto?</strong> Le quita carga de trabajo a la placa de video y al procesador desactivando animaciones y sombras innecesarias.</div>
+              <ol class="action-list">
+                <li>Buscá <strong>"Configuración de rendimiento visual"</strong>.</li>
+                <li>Elegí <strong>"Ajustar para obtener el mejor rendimiento"</strong>.</li>
+                <li>Volvé a activar: Suavizar bordes de fuentes, Mostrar miniaturas y Mostrar contenido al arrastrar.</li>
+              </ol>
+            </div>
+          </article>
+
+          <!-- Paso 4 -->
+          <article class="step" data-step="4">
+            <button class="step-head" aria-expanded="false">
+              <span class="step-num">04</span><span class="step-title">Ajustes de Configuración de Windows</span><span class="step-time">1:36</span><span class="step-chevron">▾</span>
+            </button>
+            <div class="step-body">
+              <div class="step-effect"><strong>¿Qué sucede al hacer esto?</strong> Corta de raíz la telemetría y desactiva aplicaciones en segundo plano, liberando RAM y ancho de banda.</div>
+              <p class="step-group-label">Sistema y Privacidad</p>
+              <ul class="action-list">
+                <li>Desactivar <strong>Asistente de concentración</strong> y activar <strong>Sensor de almacenamiento</strong>.</li>
+                <li>En Privacidad, desactivar: Voz, Diagnóstico, Historial, Ubicación, Notificaciones, Contactos, Aplicaciones en segundo plano, etc. (Dejar Cuenta de Microsoft activada).</li>
+                <li>En Colores, desactivar <strong>Efectos de transparencia</strong>.</li>
+                <li>En Optimización de distribución (Windows Update), limitar ancho de banda al <strong>5%</strong>.</li>
+              </ul>
+            </div>
+          </article>
+
+          <!-- Paso 5 -->
+          <article class="step" data-step="5">
+            <button class="step-head" aria-expanded="false">
+              <span class="step-num">05</span><span class="step-title">Plan de energía en alto rendimiento</span><span class="step-time">3:19</span><span class="step-chevron">▾</span>
+            </button>
+            <div class="step-body">
+              <div class="step-effect"><strong>¿Qué sucede al hacer esto?</strong> Evita que los componentes entren en ahorro de energía, garantizando respuesta instantánea.</div>
+              <ol class="action-list">
+                <li>Seleccioná <strong>"Máximo rendimiento"</strong> en el Panel de Control.</li>
+                <li>En configuración avanzada: Apagar disco duro = 0 (nunca).</li>
+                <li>Estado mínimo y máximo del procesador = 100%. *(Ver consejo de temperaturas abajo si tu PC calienta mucho).*</li>
+              </ol>
+            </div>
+          </article>
+
+          <!-- Paso 6 -->
+          <article class="step" data-step="6">
+            <button class="step-head" aria-expanded="false">
+              <span class="step-num">06</span><span class="step-title">Desactivar programas de inicio</span><span class="step-time">4:24</span><span class="step-chevron">▾</span>
+            </button>
+            <div class="step-body">
+              <div class="step-effect"><strong>¿Qué sucede al hacer esto?</strong> Acelera el encendido de la PC y evita que programas inútiles consuman RAM en segundo plano.</div>
+              <ol class="action-list">
+                <li>Abrí el Administrador de tareas → pestaña <strong>Inicio</strong>.</li>
+                <li>Desactivá todo lo que no necesites que arranque con Windows.</li>
+              </ol>
+            </div>
+          </article>
+
+          <!-- Paso 7 -->
+          <article class="step" data-step="7">
+            <button class="step-head" aria-expanded="false">
+              <span class="step-num">07</span><span class="step-title">Limpieza del sistema</span><span class="step-time">4:44</span><span class="step-chevron">▾</span>
+            </button>
+            <div class="step-body">
+              <div class="step-effect"><strong>¿Qué sucede al hacer esto?</strong> Borra gigabytes de archivos temporales acumulados y agiliza las búsquedas del sistema.</div>
+              <ol class="action-list">
+                <li>Si tenés HDD: desfragmentar. Si tenés SSD: <strong>solo optimizar</strong>.</li>
+                <li>Ejecutá los scripts de limpieza del pack (PowerRUN) y borrá registros en el Visor de Eventos.</li>
+              </ol>
+            </div>
+          </article>
+
+          <!-- Paso 8 -->
+          <article class="step" data-step="8">
+            <button class="step-head" aria-expanded="false">
+              <span class="step-num">08</span><span class="step-title">Optimización de periféricos</span><span class="step-time">6:11</span><span class="step-chevron">▾</span>
+            </button>
+            <div class="step-body">
+              <div class="step-effect"><strong>¿Qué sucede al hacer esto?</strong> El movimiento del mouse en pantalla pasa a ser una representación 1:1 del movimiento físico, clave para shooters.</div>
+              <ol class="action-list">
+                <li>Ejecutá los scripts de periféricos del pack.</li>
+                <li>En configuración del mouse, desactivá la <strong>Precisión de puntero</strong>.</li>
+              </ol>
+            </div>
+          </article>
+
+          <!-- Paso 9 -->
+          <article class="step" data-step="9">
+            <button class="step-head" aria-expanded="false">
+              <span class="step-num">09</span><span class="step-title">Desactivar servicios innecesarios</span><span class="step-time">7:03</span><span class="step-chevron">▾</span>
+            </button>
+            <div class="step-body">
+              <div class="step-effect"><strong>¿Qué sucede al hacer esto?</strong> Apaga procesos invisibles por defecto (fax, cola de impresión), liberando subprocesos del procesador.</div>
+              <ol class="action-list">
+                <li>Ejecutá el script de <strong>"Servicios innecesarios"</strong> desde el pack con PowerRUN.</li>
+              </ol>
+            </div>
+          </article>
+
+          <!-- Paso 10 -->
+          <article class="step" data-step="10">
+            <button class="step-head" aria-expanded="false">
+              <span class="step-num">10</span><span class="step-title">Ajustes en el Editor de registro</span><span class="step-time">7:56</span><span class="step-chevron">▾</span>
+            </button>
+            <div class="step-body">
+              <div class="step-effect"><strong>¿Qué sucede al hacer esto?</strong> Cambia el "PriorityControl", forzando a Windows a dedicarle mucha más atención al juego abierto en primer plano.</div>
+              <ol class="action-list">
+                <li>Modificá <code>Win32PrioritySeparation</code> en regedit. Valor decimal <strong>28</strong> (estabilidad) o <strong>26</strong> (menor input lag).</li>
+              </ol>
+            </div>
+          </article>
+
+          <!-- Paso 11 -->
+          <article class="step" data-step="11">
+            <button class="step-head" aria-expanded="false">
+              <span class="step-num">11</span><span class="step-title">Optimizar la red (mejorar el ping)</span><span class="step-time">9:21</span><span class="step-chevron">▾</span>
+            </button>
+            <div class="step-body">
+              <div class="step-effect"><strong>¿Qué sucede al hacer esto?</strong> Quita protocolos obsoletos y establece servidores DNS veloces para bajar el ping.</div>
+              <ol class="action-list">
+                <li>En propiedades de red, dejá solo IPv4 y QoS.</li>
+                <li>Configurá DNS manuales (ej. Cloudflare 1.1.1.1 o Google 8.8.8.8).</li>
+              </ol>
+            </div>
+          </article>
+
+          <!-- Paso 12 -->
+          <article class="step" data-step="12">
+            <button class="step-head" aria-expanded="false">
+              <span class="step-num">12</span><span class="step-title">Scripts avanzados: Chris Titus y RAM</span><span class="step-time">10:17</span><span class="step-chevron">▾</span>
+            </button>
+            <div class="step-body">
+              <div class="step-effect"><strong>¿Qué sucede al hacer esto?</strong> Aplican "tweaks" que manualmente tomarían horas, ajustando cómo Windows administra procesos y memoria.</div>
+              <ol class="action-list">
+                <li>Ejecutá el script de Chris Titus desde PowerShell y aplicá el perfil Desktop.</li>
+                <li>Usá el script de prioridad de RAM ingresando tu memoria en MB (ej. 16GB = 16384).</li>
+              </ol>
+            </div>
+          </article>
+
+          <!-- Paso 13 -->
+          <article class="step" data-step="13">
+            <button class="step-head" aria-expanded="false">
+              <span class="step-num">13</span><span class="step-title">Instalar programas de rendimiento</span><span class="step-time">12:06</span><span class="step-chevron">▾</span>
+            </button>
+            <div class="step-body">
+              <div class="step-effect"><strong>¿Qué sucede al hacer esto?</strong> Despierta núcleos "dormidos" de la CPU y sube el polling rate de tus USBs a 1000Hz.</div>
+              <ol class="action-list">
+                <li>Usá Quick CPU para poner el mínimo/máximo al 100%.</li>
+                <li>Usá USB Boost para mouse y teclado a 1000 Hz.</li>
+              </ol>
+            </div>
+          </article>
+
+        </div>
+        
+        <!-- DESCARGA W10 -->
+        <section class="download-section" style="padding-top: 40px; padding-bottom:0;">
+          <div class="download-card">
+            <div class="download-left">
+              <p class="section-kicker">// pack de optimización w10</p>
+              <h2>Descargá el pack de The_Tito</h2>
+              <div class="download-actions">
+                <a href="https://www.mediafire.com/file/um4mrwl0ec10007/Pack_de_Optimizacion.rar/file" target="_blank" class="btn btn-primary btn-large">⬇ MediaFire (Win 10)</a>
+              </div>
+            </div>
+          </div>
+        </section>
+      </section>
+    </div>
+
+
+    <!-- ========================================== -->
+    <!-- ========== CONTENIDO WINDOWS 11 ========== -->
+    <!-- ========================================== -->
+    <div id="win11" class="os-content">
+      
+      <!-- VIDEO W11 -->
+      <section class="video-section">
+        <div class="section-head">
+          <p class="section-kicker">// referencia original windows 11</p>
+          <h2>Mirá el video de Windows 11</h2>
+        </div>
+        <div class="video-wrap">
+          <div class="video-frame">
+            <iframe src="https://www.youtube.com/embed/g2JOnVwzFj0" title="Optimización Windows 11" frameborder="0" allowfullscreen></iframe>
+          </div>
+          <div class="video-meta">
+            <span class="badge">The_Tito</span>
+            <span class="video-title">🔥Optimicé Windows 11 +100fps??📈🔥 | ¿Mejor para Gaming?⚙️</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- AVISO W11 -->
+      <section class="warning-strip">
+        <div class="warning-inner">
+          <span class="warning-icon">⚠</span>
+          <p><strong>Cuidado con los mitos:</strong> El creador advierte que <strong>NO debes tocar MSConfig</strong> (Número de procesadores). Windows ya usa todos los núcleos, limitarlos ahí puede causar errores de booteo graves.</p>
+        </div>
+      </section>
+
+      <!-- PASOS W11 -->
+      <section class="steps-section">
+        <div class="section-head">
+          <p class="section-kicker">// guía paso a paso</p>
+          <h2>Los 12 pasos para Windows 11</h2>
+        </div>
+        <div class="timeline">
+          
+          <article class="step" data-step="1">
+            <button class="step-head" aria-expanded="false"><span class="step-num">01</span><span class="step-title">Crear un punto de restauración</span><span class="step-time">0:30</span><span class="step-chevron">▾</span></button>
+            <div class="step-body">
+              <div class="step-effect"><strong>¿Qué sucede al hacer esto?</strong> Crea una copia de seguridad por si W11 se vuelve inestable.</div>
+              <ol class="action-list">
+                <li>Buscá "Crear un punto de restauración" en inicio. Asigná entre 5% y 6%.</li>
+              </ol>
+            </div>
+          </article>
+
+          <article class="step" data-step="2">
+            <button class="step-head" aria-expanded="false"><span class="step-num">02</span><span class="step-title">Activar Sensor de Almacenamiento</span><span class="step-time">2:00</span><span class="step-chevron">▾</span></button>
+            <div class="step-body">
+              <div class="step-effect"><strong>¿Qué sucede al hacer esto?</strong> Automatiza la limpieza del disco y papelera.</div>
+              <ol class="action-list">
+                <li><code>Configuración → Sistema → Almacenamiento</code>. Activar y configurar cada semana.</li>
+              </ol>
+            </div>
+          </article>
+
+          <article class="step" data-step="3">
+            <button class="step-head" aria-expanded="false"><span class="step-num">03</span><span class="step-title">Deshabilitar Game Mode y Xbox Game Bar</span><span class="step-time">2:22</span><span class="step-chevron">▾</span></button>
+            <div class="step-body">
+              <div class="step-effect"><strong>¿Qué sucede al hacer esto?</strong> Evita que Game Bar grabe en segundo plano y quite recursos.</div>
+              <ol class="action-list"><li><code>Configuración → Juegos</code>. Apagar Modo de Juego y Game Bar.</li></ol>
+            </div>
+          </article>
+
+          <article class="step" data-step="4">
+            <button class="step-head" aria-expanded="false"><span class="step-num">04</span><span class="step-title">Ajustar Rendimiento Visual</span><span class="step-time">2:36</span><span class="step-chevron">▾</span></button>
+            <div class="step-body">
+              <div class="step-effect"><strong>¿Qué sucede al hacer esto?</strong> Elimina animaciones fluidas y sombras, quitando estrés a la GPU.</div>
+              <ol class="action-list"><li>Opciones avanzadas del sistema → Rendimiento → "Ajustar para obtener el mejor rendimiento" (dejando miniaturas y fuentes suavizadas).</li></ol>
+            </div>
+          </article>
+
+          <article class="step" data-step="5">
+            <button class="step-head" aria-expanded="false"><span class="step-num">05</span><span class="step-title">Plan de Máximo Rendimiento</span><span class="step-time">4:01</span><span class="step-chevron">▾</span></button>
+            <div class="step-body">
+              <div class="step-effect"><strong>¿Qué sucede al hacer esto?</strong> Mantiene las frecuencias del procesador altas.</div>
+              <ol class="action-list"><li><code>Configuración → Sistema → Inicio y apagado</code> → Modo de energía: Máximo rendimiento.</li></ol>
+            </div>
+          </article>
+
+          <article class="step" data-step="6">
+            <button class="step-head" aria-expanded="false"><span class="step-num">06</span><span class="step-title">Desactivar Notificaciones</span><span class="step-time">4:24</span><span class="step-chevron">▾</span></button>
+            <div class="step-body">
+              <div class="step-effect"><strong>¿Qué sucede al hacer esto?</strong> Libera interrupciones del CPU y RAM.</div>
+              <ol class="action-list"><li><code>Configuración → Sistema → Notificaciones</code>. Apagar interruptor principal.</li></ol>
+            </div>
+          </article>
+
+          <article class="step" data-step="7">
+            <button class="step-head" aria-expanded="false"><span class="step-num">07</span><span class="step-title">Privacidad y Permisos</span><span class="step-time">4:51</span><span class="step-chevron">▾</span></button>
+            <div class="step-body">
+              <div class="step-effect"><strong>¿Qué sucede al hacer esto?</strong> Detiene telemetría pesada de Windows 11.</div>
+              <ol class="action-list"><li><code>Privacidad y seguridad</code>. Apagar General, Historial, y permisos no usados (Ubicación, Contactos).</li></ol>
+            </div>
+          </article>
+
+          <article class="step" data-step="8">
+            <button class="step-head" aria-expanded="false"><span class="step-num">08</span><span class="step-title">Transparencia y Personalización</span><span class="step-time">5:18</span><span class="step-chevron">▾</span></button>
+            <div class="step-body">
+              <div class="step-effect"><strong>¿Qué sucede al hacer esto?</strong> Quita el efecto "Mica" o acrílico, reduciendo trabajo de GPU al renderizar menús.</div>
+              <ol class="action-list"><li><code>Personalización → Colores</code> → Desactivar Efectos de transparencia.</li></ol>
+            </div>
+          </article>
+
+          <article class="step" data-step="9">
+            <button class="step-head" aria-expanded="false"><span class="step-num">09</span><span class="step-title">Limitar Ancho de Banda (Updates)</span><span class="step-time">5:35</span><span class="step-chevron">▾</span></button>
+            <div class="step-body">
+              <div class="step-effect"><strong>¿Qué sucede al hacer esto?</strong> Evita picos de ping porque Windows deje de descargar o subir updates de fondo.</div>
+              <ol class="action-list"><li><code>Windows Update → Opciones avanzadas → Optimización de distribución</code>. Limitar a 5% absoluto.</li></ol>
+            </div>
+          </article>
+
+          <article class="step" data-step="10">
+            <button class="step-head" aria-expanded="false"><span class="step-num">10</span><span class="step-title">Limpieza Manual de Temporales</span><span class="step-time">6:11</span><span class="step-chevron">▾</span></button>
+            <div class="step-body">
+              <div class="step-effect"><strong>¿Qué sucede al hacer esto?</strong> Libera espacio físico borrando basura de instaladores.</div>
+              <ol class="action-list"><li>Windows+R → borrar contenido de <code>temp</code> y <code>%temp%</code>.</li></ol>
+            </div>
+          </article>
+
+          <article class="step" data-step="11">
+            <button class="step-head" aria-expanded="false"><span class="step-num">11</span><span class="step-title">Desactivar Apps de Inicio</span><span class="step-time">6:37</span><span class="step-chevron">▾</span></button>
+            <div class="step-body">
+              <div class="step-effect"><strong>¿Qué sucede al hacer esto?</strong> Reduce dramáticamente el consumo de RAM inicial.</div>
+              <ol class="action-list"><li><code>Aplicaciones → Inicio</code>. Desactivar bloatware.</li></ol>
+            </div>
+          </article>
+
+          <article class="step" data-step="12">
+            <button class="step-head" aria-expanded="false"><span class="step-num">12</span><span class="step-title">Script Chris Titus (Debloat)</span><span class="step-time">7:00</span><span class="step-chevron">▾</span></button>
+            <div class="step-body">
+              <div class="step-effect"><strong>¿Qué sucede al hacer esto?</strong> Baja de 181 a 91 procesos en segundo plano aplicando tweaks de registro.</div>
+              <ol class="action-list">
+                <li>PowerShell (admin) → <code>irm christitus.com/win | iex</code></li>
+                <li>Pestaña Tweaks → Desktop → Run Tweaks.</li>
+              </ol>
+            </div>
+          </article>
+
+        </div>
+        
+        <!-- RESULTADOS W11 -->
+        <section class="tips-section" id="resultados-w11" style="padding-top: 40px; border-top:none;">
+          <div class="section-head">
+            <p class="section-kicker">// conclusiones del video</p>
+            <h2>Resultados W11: ¿Sirvió la optimización?</h2>
+          </div>
+          <div class="tips-grid">
+            <div class="tip-card">
+              <span class="tip-icon">🪂</span><h3>Fortnite</h3>
+              <p>De 80-95 fps a 83-98 fps. <strong>+5 a 8 FPS</strong> (única mejora real).</p>
+            </div>
+            <div class="tip-card">
+              <span class="tip-icon">🧟</span><h3>Dying Light</h3>
+              <p>De 33 fps a 31 fps. <strong>-2 FPS</strong>.</p>
+            </div>
+            <div class="tip-card">
+              <span class="tip-icon">🔫</span><h3>Counter Strike 2</h3>
+              <p>De 74 fps a 70 fps. <strong>-4 FPS</strong>.</p>
+            </div>
+            <div class="tip-card" style="grid-column: 1 / -1; border-color: var(--warn); background: var(--warn-glow);">
+              <span class="tip-icon">⚖️</span>
+              <h3>Veredicto Final</h3>
+              <p>Aunque el script bajó los procesos de 181 a 91 (genial para escritorio), en Gaming puro W11 no mejoró significativamente. <strong>Recomendación: Si querés exprimir máximo rendimiento en PC de bajos recursos, usá Windows 10.</strong></p>
+            </div>
+          </div>
+        </section>
+      </section>
+    </div>
+  </main>
+
+  <script is:inline>
+    // ===== Acordeón de pasos =====
+    document.querySelectorAll('.step-head').forEach((head) => {
+      head.addEventListener('click', () => {
+        const step = head.closest('.step');
+        const body = step.querySelector('.step-body');
+        const isOpen = step.classList.contains('is-open');
+
+        if (isOpen) {
+          body.style.maxHeight = null;
+          step.classList.remove('is-open');
+          head.setAttribute('aria-expanded', 'false');
+        } else {
+          step.classList.add('is-open');
+          head.setAttribute('aria-expanded', 'true');
+          body.style.maxHeight = body.scrollHeight + 'px';
+        }
+      });
+    });
+
+    // ===== Selector de Sistema Operativo (Tabs) =====
+    document.querySelectorAll('.os-tab').forEach((tab) => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.os-tab').forEach((t) => t.classList.remove('active'));
+        document.querySelectorAll('.os-content').forEach((c) => c.classList.remove('active'));
+        tab.classList.add('active');
+        const targetId = tab.getAttribute('data-target');
+        document.getElementById(targetId).classList.add('active');
+      });
+    });
+
+    // ===== Fondo animado: grid de circuito con pulsos =====
+    (function () {
+      const canvas = document.getElementById('grid-bg');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      let w, h, cols, rows;
+      const spacing = 46;
+      let nodes = [];
+      let pulses = [];
+
+      function resize() {
+        w = canvas.width = window.innerWidth;
+        h = canvas.height = window.innerHeight;
+        cols = Math.ceil(w / spacing) + 1;
+        rows = Math.ceil(h / spacing) + 1;
+        buildNodes();
+      }
+
+      function buildNodes() {
+        nodes = [];
+        for (let y = 0; y < rows; y++) {
+          for (let x = 0; x < cols; x++) {
+            nodes.push({ x: x * spacing, y: y * spacing });
+          }
+        }
+      }
+
+      function spawnPulse() {
+        if (nodes.length === 0) return;
+        const startCol = Math.floor(Math.random() * cols);
+        const horizontal = Math.random() > 0.5;
+        pulses.push({
+          col: startCol,
+          pos: horizontal ? 0 : 0,
+          horizontal,
+          progress: 0,
+          speed: 0.006 + Math.random() * 0.01,
+          lane: Math.floor(Math.random() * (horizontal ? rows : cols)),
+        });
+        if (pulses.length > 14) pulses.shift();
+      }
+
+      function draw() {
+        ctx.clearRect(0, 0, w, h);
+
+        ctx.fillStyle = 'rgba(0, 210, 255, 0.05)';
+        for (const n of nodes) {
+          ctx.beginPath();
+          ctx.arc(n.x, n.y, 1, 0, Math.PI * 2);
+          ctx.fill();
+        }
+
+        ctx.strokeStyle = 'rgba(255,255,255,0.015)';
+        ctx.lineWidth = 1;
+        for (let x = 0; x <= cols; x++) {
+          ctx.beginPath();
+          ctx.moveTo(x * spacing, 0);
+          ctx.lineTo(x * spacing, h);
+          ctx.stroke();
+        }
+        for (let y = 0; y <= rows; y++) {
+          ctx.beginPath();
+          ctx.moveTo(0, y * spacing);
+          ctx.lineTo(w, y * spacing);
+          ctx.stroke();
+        }
+
+        pulses.forEach((p) => {
+          p.progress += p.speed;
+          const alpha = Math.sin(p.progress * Math.PI); 
+          let px, py;
+          if (p.horizontal) {
+            px = p.progress * w;
+            py = p.lane * spacing;
+          } else {
+            px = p.lane * spacing;
+            py = p.progress * h;
+          }
+          const grad = ctx.createRadialGradient(px, py, 0, px, py, 60);
+          grad.addColorStop(0, `rgba(0, 210, 255, ${0.5 * alpha})`);
+          grad.addColorStop(1, 'rgba(0, 210, 255, 0)');
+          ctx.fillStyle = grad;
+          ctx.beginPath();
+          ctx.arc(px, py, 60, 0, Math.PI * 2);
+          ctx.fill();
+
+          ctx.fillStyle = `rgba(180, 240, 255, ${alpha})`;
+          ctx.beginPath();
+          ctx.arc(px, py, 2, 0, Math.PI * 2);
+          ctx.fill();
+        });
+
+        pulses = pulses.filter((p) => p.progress < 1);
+      }
+
+      let lastSpawn = 0;
+      function loop(t) {
+        if (t - lastSpawn > 900) {
+          spawnPulse();
+          lastSpawn = t;
+        }
+        draw();
+        requestAnimationFrame(loop);
+      }
+
+      window.addEventListener('resize', resize);
+      resize();
+
+      if (!reduceMotion) {
+        requestAnimationFrame(loop);
+      } else {
+        draw();
+      }
+    })();
+  </script>
+</Layout>
+
+EOF
+
+echo "✅ ¡Listo! El archivo index.astro ha sido actualizado con toda la información detallada."
+echo "▶️  Corré 'npm run dev' para previsualizar los cambios."
