@@ -1,0 +1,85 @@
+---
+// src/components/sections/SpotifySection.astro
+---
+<div id="spotify" class="os-content">
+  
+  <!-- INTRO SPOTIFY -->
+  <section class="video-section" id="intro-spotify">
+    <div class="section-head">
+      <p class="section-kicker">// personalización avanzada</p>
+      <h2>Cómo instalar Spicetify</h2>
+      <p class="section-desc">Spicetify is a multiplatform command-line tool to customize the official Spotify client.[cite: 1]</p>
+    </div>
+  </section>
+
+  <!-- AVISO SPOTIFY -->
+  <section class="warning-strip">
+    <div class="warning-inner">
+      <span class="warning-icon">ℹ️</span>
+      <p><strong>Before First Run:</strong> If this is a fresh Spotify install, open Spotify and log in for at least 60 seconds before running Spicetify.[cite: 1] This allows Spotify to generate the files that Spicetify needs to function.[cite: 1]</p>
+    </div>
+  </section>
+
+  <!-- PASOS SPOTIFY -->
+  <section class="steps-section" id="pasos-spotify">
+    <div class="section-head">
+      <p class="section-kicker">// guía de instalación windows</p>
+      <h2>Los pasos para instalar y usar Spicetify</h2>
+    </div>
+    <div class="timeline">
+      
+      <article class="step" data-step="1">
+        <button class="step-head" aria-expanded="false">
+          <span class="step-num">01</span><span class="step-title">Instalar Spicetify CLI</span><span class="step-time">PowerShell</span><span class="step-chevron">▾</span>
+        </button>
+        <div class="step-body">
+          <div class="step-effect"><strong>¿Qué sucede al hacer esto?</strong> Se descarga e instala la herramienta principal de Spicetify en tu sistema mediante PowerShell (Recomendado).[cite: 1]</div>
+          <ol class="action-list">
+            <li>Abrí una ventana de PowerShell.</li>
+            <li>Copiá y pegá el siguiente comando:</li>
+            <code>iwr -useb https://raw.githubusercontent.com/spicetify/cli/main/install.ps1 | iex</code>[cite: 1]
+          </ol>
+        </div>
+      </article>
+
+      <article class="step" data-step="2">
+        <button class="step-head" aria-expanded="false">
+          <span class="step-num">02</span><span class="step-title">Instalar el Marketplace</span><span class="step-time">PowerShell</span><span class="step-chevron">▾</span>
+        </button>
+        <div class="step-body">
+          <div class="step-effect"><strong>¿Qué sucede al hacer esto?</strong> The Spicetify Marketplace gives you a tab in Spotify’s sidebar to browse and install themes, extensions, and snippets.[cite: 1]</div>
+          <ol class="action-list">
+            <li>En la misma ventana de PowerShell, ejecutá:</li>
+            <code>iwr -useb https://raw.githubusercontent.com/spicetify/marketplace/main/resources/install.ps1 | iex</code>[cite: 1]
+          </ol>
+        </div>
+      </article>
+
+      <article class="step" data-step="3">
+        <button class="step-head" aria-expanded="false">
+          <span class="step-num">03</span><span class="step-title">Aplicar temas y extensiones</span><span class="step-time">Uso Básico</span><span class="step-chevron">▾</span>
+        </button>
+        <div class="step-body">
+          <div class="step-effect"><strong>¿Qué sucede al hacer esto?</strong> Comienzas a personalizar tu cliente de Spotify.</div>
+          <ol class="action-list">
+            <li>After installing Spicetify and Marketplace, you can customize Spotify using themes and extensions from the Marketplace tab in Spotify’s sidebar.[cite: 1]</li>
+          </ol>
+        </div>
+      </article>
+
+      <article class="step" data-step="4">
+        <button class="step-head" aria-expanded="false">
+          <span class="step-num">04</span><span class="step-title">Actualizaciones futuras</span><span class="step-time">Mantenimiento</span><span class="step-chevron">▾</span>
+        </button>
+        <div class="step-body">
+          <div class="step-effect"><strong>¿Qué sucede al hacer esto?</strong> Spotify updates periodically. After a Spotify update, you’ll need to re-apply Spicetify.[cite: 1]</div>
+          <ol class="action-list">
+            <li>Abrí PowerShell y ejecutá: <code>spicetify backup apply</code>[cite: 1]</li>
+            <li>If that doesn’t work, Spicetify itself may need an update: <code>spicetify update</code>[cite: 1]</li>
+          </ol>
+        </div>
+      </article>
+
+    </div>
+  </section>
+</div>
