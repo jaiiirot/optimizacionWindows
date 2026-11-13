@@ -3,23 +3,23 @@
 ---
 <div class="os-tabs">
   <button class="os-tab active" data-target="win10">
-    <img src="/w10.png" alt="Windows 10 Logo" style="width: 48px; height: 48px; object-fit: contain; margin-bottom: 8px;">
+    <img src={import.meta.env.BASE_URL + 'w10.png'} alt="Windows 10 Logo" style="width: 48px; height: 48px; object-fit: contain; margin-bottom: 8px;">
     Windows 10
   </button>
   
   <button class="os-tab" data-target="win11">
-    <img src="/w11.webp" alt="Windows 11 Logo" style="width: 48px; height: 48px; object-fit: contain; margin-bottom: 8px;">
+    <img src={import.meta.env.BASE_URL + 'w11.webp'} alt="Windows 11 Logo" style="width: 48px; height: 48px; object-fit: contain; margin-bottom: 8px;">
     Windows 11
   </button>
 
   <button class="os-tab" data-target="actwin">
-    <img src="/activeWin.png" alt="Activación Windows Logo" style="width: 48px; height: 48px; object-fit: contain; margin-bottom: 8px;">
+    <img src={import.meta.env.BASE_URL + 'activeWin.png'} alt="Activación Windows Logo" style="width: 48px; height: 48px; object-fit: contain; margin-bottom: 8px;">
     Activación Windows
   </button>
 
   <!-- Pestaña de Spotify habilitada -->
   <button class="os-tab" data-target="spotify">
-    <img src="/Spotify.png" alt="Spotify Logo" style="width: 48px; height: 48px; object-fit: contain; margin-bottom: 8px;">
+    <img src={import.meta.env.BASE_URL + 'Spotify.png'} alt="Spotify Logo" style="width: 48px; height: 48px; object-fit: contain; margin-bottom: 8px;">
     Spicetify
   </button>
 </div>
